@@ -32,11 +32,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         BottonAnalizar = new javax.swing.JButton();
         BotonAFD = new javax.swing.JButton();
         ComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        VerArbolButon = new javax.swing.JButton();
+        VerAFNButton = new javax.swing.JButton();
+        VerSiguientesButton = new javax.swing.JButton();
+        VerTransicionesButton = new javax.swing.JButton();
+        VerAFDButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -83,21 +83,51 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         ComboBox1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         ComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBox1ActionPerformed(evt);
+            }
+        });
 
-        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton1.setText("Ver Arbol");
+        VerArbolButon.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        VerArbolButon.setText("Ver Arbol");
+        VerArbolButon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerArbolButonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton2.setText("Ver AFN");
+        VerAFNButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        VerAFNButton.setText("Ver AFN");
+        VerAFNButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerAFNButtonActionPerformed(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton3.setText("Ver Tabla de Siguientes");
+        VerSiguientesButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        VerSiguientesButton.setText("Ver Tabla de Siguientes");
+        VerSiguientesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerSiguientesButtonActionPerformed(evt);
+            }
+        });
 
-        jButton4.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton4.setText("Ver Tabla de Transiciones");
+        VerTransicionesButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        VerTransicionesButton.setText("Ver Tabla de Transiciones");
+        VerTransicionesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerTransicionesButtonActionPerformed(evt);
+            }
+        });
 
-        jButton5.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jButton5.setText("Ver AFD");
+        VerAFDButton.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        VerAFDButton.setText("Ver AFD");
+        VerAFDButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerAFDButtonActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
@@ -171,13 +201,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(ComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(VerArbolButon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(VerAFNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(VerSiguientesButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(VerTransicionesButton, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addComponent(VerAFDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(83, 83, 83)
@@ -213,15 +243,15 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                                 .addGap(33, 33, 33)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(VerArbolButon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(VerAFNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(VerTransicionesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(VerSiguientesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(VerAFDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -260,6 +290,30 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private void MenuGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuGuardarComoActionPerformed
         guardarArchivoNuevo();
     }//GEN-LAST:event_MenuGuardarComoActionPerformed
+
+    private void ComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboBox1ActionPerformed
+
+    private void VerArbolButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerArbolButonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VerArbolButonActionPerformed
+
+    private void VerAFNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerAFNButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VerAFNButtonActionPerformed
+
+    private void VerAFDButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerAFDButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VerAFDButtonActionPerformed
+
+    private void VerTransicionesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerTransicionesButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VerTransicionesButtonActionPerformed
+
+    private void VerSiguientesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerSiguientesButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_VerSiguientesButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -306,11 +360,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem MenuNuevo;
     private javax.swing.JTextArea TextArea1;
     private javax.swing.JTextArea TextAreaConsola;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JButton VerAFDButton;
+    private javax.swing.JButton VerAFNButton;
+    private javax.swing.JButton VerArbolButon;
+    private javax.swing.JButton VerSiguientesButton;
+    private javax.swing.JButton VerTransicionesButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

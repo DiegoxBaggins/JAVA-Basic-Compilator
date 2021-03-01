@@ -1,0 +1,68 @@
+package analizadores; 
+import java_cup.runtime.*;
+
+parser code 
+{:
+    //Codigo que se le agrega al parser
+
+    //Codigo para Errores Sintacticos
+    public void syntax_error(Symbol s){ 
+        System.out.println("Error SintÃ¡ctico en la LÃ­nea " + (s.left) +
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
+    } 
+
+    //Codigo para errores que ya no se pueden recuperar
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error sÃ­ntactico irrecuperable en la LÃ­nea " + 
+        (s.left)+ " Columna "+s.right+". Componente " + s.value + 
+        " no reconocido."); 
+    }  
+:} 
+
+terminal String llave1,llave2,corchete1,corchete2,dospuntos,virgula,puntocoma,punto,coma,asterisco,barra,comillas,comilla,gbajo,guion,mas,interrogacion,separador,salto;
+terminal String entero,decimal,palabra,cadena,comentario,comlinea,conj,flecha,separacion;
+
+non terminal INICIO;
+non terminal CABEZA, CONJUNTO, EXPRESION, CUERPO, ELEMENTOS;
+
+precedence left asterisco, mas;
+precedence left punto;
+precedence left barra;
+
+start with INICIO; 
+
+INICIO  ::=  llave1 salto CABEZA llave2    {::}
+ |  comlinea INICIO      {::} 
+ |  comentario INICIO    {::}
+;
+
+CABEZA  ::=  conj dospuntos CONJUNTO   {::}
+ |  comlinea CABEZA      {::} 
+ |  comentario CABEZA    {::}
+ |  cadena flecha EXPRESION    {::}
+ |  separacion salto       {::}
+;
+
+CONJUNTO  ::=  cadena flecha ELEMENTOS puntocoma salto    {::}
+ | cadena flecha ELEMENTOS puntocoma comentario    {::}
+ | cadena flecha ELEMENTOS puntocoma comlinea    {::}
+ | cadena flecha cadena virgula cadena puntocoma salto     {::}
+ | cadena flecha cadena virgula cadena puntocoma comentario   {::}
+ | cadena flecha cadena virgula cadena puntocoma comlinea     {::}
+;
+
+ELEMENTOS  ::= cadena coma ELEMENTOS      {::}
+ | cadena   {::}
+;
+
+EXPRESION  ::=  punto EXPRESION    {::}
+ | comillas cadena comillas EXPRESION   {::}
+ | barra EXPRESION  {::}
+ | llave1 cadena llave2 EXPRESION     {::}
+ | asterisco EXPRESION      {::}
+ | mas EXPRESION    {::}
+ | interrogacion EXPRESION      {::}
+ | puntocoma salto     {::}
+ | puntocoma comentario   {::}
+ | puntocoma comlinea     {::}
+; 
