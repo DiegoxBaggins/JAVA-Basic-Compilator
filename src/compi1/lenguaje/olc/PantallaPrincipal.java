@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing. *;
 import javax.swing.filechooser. *;
+import analizadores.*;
 /**
  *
  * @author dalej
@@ -280,7 +281,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuNuevoActionPerformed
 
     private void BottonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BottonAnalizarActionPerformed
-        // TODO add your handling code here:
+        try {
+            String entrada = TextArea1.getText();
+            System.out.println();
+            parser sintactico;
+            sintactico = new parser(new lexico(new StringReader(entrada)));
+            sintactico.parse();
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_BottonAnalizarActionPerformed
 
     private void BotonAFDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAFDActionPerformed

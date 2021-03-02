@@ -19,50 +19,55 @@ parser code
     }  
 :} 
 
-terminal String llave1,llave2,corchete1,corchete2,dospuntos,virgula,puntocoma,punto,coma,asterisco,barra,comillas,comilla,gbajo,guion,mas,interrogacion,separador,salto;
-terminal String entero,decimal,palabra,cadena,comentario,comlinea,conj,flecha,separacion;
+terminal String llave1,llave2,dospuntos,puntocoma,punto,coma,asterisco,barra,comillas,comilla,mas,interrogacion,conj,guion,mayorq,separador,invertida;
+terminal String palabra,id,casonum,casomin,casomayus,cadena,casosim;
 
 non terminal INICIO;
-non terminal CABEZA, CONJUNTO, EXPRESION, CUERPO, ELEMENTOS;
+non terminal CABEZA, CONJUNTO, EXPRESION, CUERPO, ELEMENTOS, CUERPOCONJUNTOS, CONJUNTOEXP, SIMBOLOGIA, SEPARAR;
 
-precedence left asterisco, mas;
-precedence left punto;
-precedence left barra;
 
 start with INICIO; 
 
-INICIO  ::=  llave1 salto CABEZA llave2    {::}
- |  comlinea INICIO      {::} 
- |  comentario INICIO    {::}
+INICIO  ::=  llave1 CABEZA    {:System.out.println("Cadena aceptada");:}
 ;
 
-CABEZA  ::=  conj dospuntos CONJUNTO   {::}
- |  comlinea CABEZA      {::} 
- |  comentario CABEZA    {::}
- |  cadena flecha EXPRESION    {::}
- |  separacion salto       {::}
+CABEZA  ::=  CONJUNTO CABEZA   {::}
+ |  CONJUNTOEXP CABEZA     {::}
+ |  SEPARAR CUERPO {::}
 ;
 
-CONJUNTO  ::=  cadena flecha ELEMENTOS puntocoma salto    {::}
- | cadena flecha ELEMENTOS puntocoma comentario    {::}
- | cadena flecha ELEMENTOS puntocoma comlinea    {::}
- | cadena flecha cadena virgula cadena puntocoma salto     {::}
- | cadena flecha cadena virgula cadena puntocoma comentario   {::}
- | cadena flecha cadena virgula cadena puntocoma comlinea     {::}
+CONJUNTO  ::=  conj dospuntos id guion mayorq CUERPOCONJUNTOS puntocoma    {:System.out.println("Elementos aceptados");:}
 ;
 
-ELEMENTOS  ::= cadena coma ELEMENTOS      {::}
- | cadena   {::}
+CUERPOCONJUNTOS::= palabra ELEMENTOS 
+ |casomin
+ |casomayus
+ |casonum
+ |casosim
 ;
 
-EXPRESION  ::=  punto EXPRESION    {::}
- | comillas cadena comillas EXPRESION   {::}
- | barra EXPRESION  {::}
- | llave1 cadena llave2 EXPRESION     {::}
- | asterisco EXPRESION      {::}
- | mas EXPRESION    {::}
- | interrogacion EXPRESION      {::}
- | puntocoma salto     {::}
- | puntocoma comentario   {::}
- | puntocoma comlinea     {::}
+ELEMENTOS  ::= coma ELEMENTOS      {::}
+ | palabra ELEMENTOS  {::}
+ | palabra      {::}
+;
+
+CONJUNTOEXP  ::=  id guion mayorq EXPRESION puntocoma    {:System.out.println("Expresion aceptada");:}
+;
+
+EXPRESION  ::=  punto EXPRESION EXPRESION   {:System.out.println("Punto");:}
+ | cadena   {:System.out.println("cadena");:}
+ | invertida comilla  {:System.out.println("comilla");:}
+ | invertida palabra  {:System.out.println("salto");:}
+ | barra EXPRESION EXPRESION {:System.out.println("OR");:}
+ | llave1 id llave2     {:System.out.println("conjunto");:}
+ | asterisco EXPRESION      {:System.out.println("asterisco");:}
+ | mas EXPRESION    {:System.out.println("mas");:}
+ | interrogacion EXPRESION      {:System.out.println("Interrogacion");:}
 ; 
+
+CUERPO  ::=  id dospuntos cadena puntocoma CUERPO  {:System.out.println("Expresiones aceptada");:} 
+ |  llave2  {:System.out.println("fin");:}
+;
+
+SEPARAR ::= separador separador separador separador  {:System.out.println("fin cabeza");:}
+;
