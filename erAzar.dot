@@ -1,0 +1,23 @@
+digraph G{
+rankdir=UD
+node[shape=box]
+concentrate=true
+nodo8[shape=record label="1 |{ N | .| id:0} | 4"]
+nodo6[shape=record label="1 |{ N | .| id:0} | 2,3"]
+nodo1[shape=record label="1 |{ N | +| id:0} | 1"]
+nodo0[shape=record label="1 |{ N | simbols| id:1} | 1"]
+nodo1->nodo0;
+nodo6->nodo1;
+nodo5[shape=record label="2,3 |{ N | +| id:0} | 2,3"]
+nodo4[shape=record label="2,3 |{ N | \|| id:0} | 2,3"]
+nodo2[shape=record label="2 |{ N | minus| id:2} | 2"]
+nodo4->nodo2;
+nodo3[shape=record label="3 |{ N | mayus| id:3} | 3"]
+nodo4->nodo3;
+nodo5->nodo4;
+nodo6->nodo5;
+nodo8->nodo6;
+nodo7[shape=record label="4 |{ N | #| id:4} | 4"]
+nodo8->nodo7;
+
+}

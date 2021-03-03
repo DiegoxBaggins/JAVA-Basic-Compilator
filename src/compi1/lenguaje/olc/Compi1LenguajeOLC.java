@@ -47,6 +47,31 @@ public class Compi1LenguajeOLC {
                 e2.printStackTrace();
             }
         }
-        
+        try {
+            //direcciÃ³n doonde se ecnuentra el compilador de graphviz
+            String dotPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+            //direcciÃ³n del archivo dot
+            String fileInputPath = "./" + nombre + ".dot";
+            //direcciÃ³n donde se creara la magen
+            String fileOutputPath = "./" + nombre + ".png";
+            //tipo de conversÃ³n
+            String tParam = "-Tpng";
+            String tOParam = "-o";
+
+            String[] cmd = new String[5];
+            cmd[0] = dotPath;
+            cmd[1] = tParam;
+            cmd[2] = fileInputPath;
+            cmd[3] = tOParam;
+            cmd[4] = fileOutputPath;
+
+            Runtime rt = Runtime.getRuntime();
+
+            rt.exec(cmd);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+        }
     }  
 }

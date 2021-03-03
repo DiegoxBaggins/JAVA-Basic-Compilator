@@ -178,7 +178,7 @@ public class parser extends java_cup.runtime.lr_parser {
 
     public String Consola = "";
 
-    public static ArrayList<Expresion> Expresiones = new ArrayList<Expresion>();
+    public ArrayList<Expresion> expresiones = new ArrayList<Expresion>();
     public int contador;
     public int hoja = 1;
 
@@ -256,7 +256,10 @@ class CUP$parser$actions {
           case 3: // CABEZA ::= CABEZA CONJUNTOEXP 
             {
               Object RESULT =null;
-		
+		int var1left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int var1right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Expresion var1 = (Expresion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		expresiones.add(var1);hoja = 1; contador = 0;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("CABEZA",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -277,7 +280,7 @@ class CUP$parser$actions {
 		int var1left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int var1right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Expresion var1 = (Expresion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		Expresiones.add(var1);hoja = 1; contador = 0;
+		expresiones.add(var1);hoja = 1; contador = 0;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("CABEZA",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -382,7 +385,7 @@ class CUP$parser$actions {
 		int var2left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int var2right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Nodo var2 = (Nodo)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		RESULT=new Expresion(var2, var1);
+		RESULT=new Expresion(var2, var1, contador, hoja);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("CONJUNTOEXP",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -481,7 +484,13 @@ class CUP$parser$actions {
           case 24: // EXPRESION ::= invertida palabra 
             {
               Nodo RESULT =null;
-		System.out.println("salto");
+		int var1left = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int var1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		String var1 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		int var2left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int var2right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		String var2 = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		RESULT=new Nodo(null, null, var1+var1+var2, parser.contador, parser.hoja); parser.contador++; parser.hoja++;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("EXPRESION",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

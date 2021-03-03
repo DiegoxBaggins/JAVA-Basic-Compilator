@@ -7,6 +7,7 @@ import javax.swing. *;
 import javax.swing.filechooser. *;
 import analizadores.*;
 import Objetos.*;
+import java.util.ArrayList;
 /**
  *
  * @author dalej
@@ -18,9 +19,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
      */
     public PantallaPrincipal() {
         initComponents();
+        ComboBox1.removeAllItems();
     }
 
     public String Archivo = "";
+    public ArrayList<Expresion> expresiones = new ArrayList<>();
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -37,10 +40,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         VerSiguientesButton = new javax.swing.JButton();
         VerTransicionesButton = new javax.swing.JButton();
         VerAFDButton = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         TextArea1 = new javax.swing.JTextArea();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        labelImagen = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MenuNuevo = new javax.swing.JMenuItem();
@@ -126,25 +130,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jPanel1.setBackground(new java.awt.Color(204, 255, 255));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
-        );
-
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel1.setText("Imagen       ER:                ");
 
         TextArea1.setColumns(20);
         TextArea1.setRows(5);
         jScrollPane3.setViewportView(TextArea1);
+
+        jScrollPane1.setViewportView(labelImagen);
 
         jMenu1.setText("Archivo");
 
@@ -197,7 +190,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                             .addComponent(BotonAFD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(46, 46, 46)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -211,12 +204,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                             .addComponent(VerAFDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(73, 73, 73)
+                        .addGap(70, 70, 70)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane1))))
                 .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
@@ -227,8 +220,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane3))
+                        .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(76, 76, 76)
@@ -282,19 +275,23 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void BottonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BottonAnalizarActionPerformed
         try {
+            ComboBox1.removeAllItems();
+            labelImagen.setIcon(null);
             String entrada = TextArea1.getText();
             System.out.println();
             parser sintactico;
             sintactico = new parser(new lexico(new StringReader(entrada)));
             sintactico.parse();
             TextAreaConsola.setText(sintactico.Consola);
-            int elementos = sintactico.Expresiones.size();
-            System.out.println(elementos);
+            expresiones = sintactico.expresiones;
+            int elementos = expresiones.size();
             for (int i = 0; i < elementos; i++) {
-                Expresion expresion = sintactico.Expresiones.get(0);
+                Expresion expresion = expresiones.get(i);
+                expresion.AgregarRaiz();
+                System.out.print(expresion.nombre);
                 Compi1LenguajeOLC.graficarArbol(expresion.raiz,expresion.nombre);
             }
-            
+            llenarCombo();
         } catch (Exception e) {
         }
     }//GEN-LAST:event_BottonAnalizarActionPerformed
@@ -308,11 +305,15 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuGuardarComoActionPerformed
 
     private void ComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBox1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_ComboBox1ActionPerformed
 
     private void VerArbolButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerArbolButonActionPerformed
-        // TODO add your handling code here:
+        String nombre = (String)ComboBox1.getSelectedItem();
+        //labelImagen.setBounds(50,70,400,330);
+        labelImagen.setIcon(new ImageIcon("./" + nombre + ".png"));
+        labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
+        (javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_VerArbolButonActionPerformed
 
     private void VerAFNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerAFNButtonActionPerformed
@@ -385,9 +386,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel labelImagen;
     // End of variables declaration//GEN-END:variables
 
 
@@ -471,5 +473,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             System.out.println("An error occurred.");
             e.printStackTrace();
           }
+    }
+    
+    private void llenarCombo () {
+        int elementos = expresiones.size();
+        for (int i = 0; i < elementos; i++) {
+            Expresion expresion = expresiones.get(i);
+            ComboBox1.addItem(expresion.nombre);
+        }
     }
 }

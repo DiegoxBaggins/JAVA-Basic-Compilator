@@ -10,7 +10,7 @@ parser code
 
     public String Consola = "";
 
-    public static ArrayList<Expresion> Expresiones = new ArrayList<Expresion>();
+    public ArrayList<Expresion> expresiones = new ArrayList<Expresion>();
     public int contador;
     public int hoja = 1;
 
@@ -42,9 +42,9 @@ INICIO  ::=  llave1 CABEZA SEPARAR CUERPO llave2  {:Consola += "aceptada";:}
 ;
 
 CABEZA  ::=   CABEZA CONJUNTO     {::}
- |   CABEZA CONJUNTOEXP           {::}
+ |   CABEZA CONJUNTOEXP:var1      {:expresiones.add(var1);hoja = 1; contador = 0;:}
  | CONJUNTO                       {::}
- | CONJUNTOEXP:var1               {:Expresiones.add(var1);hoja = 1; contador = 0;:}
+ | CONJUNTOEXP:var1               {:expresiones.add(var1);hoja = 1; contador = 0;:}
 ;
 
 CONJUNTO  ::=  conj dospuntos id guion mayorq CUERPOCONJUNTOS puntocoma    {::}
@@ -63,7 +63,7 @@ ELEMENTOS  ::= ELEMENTOS palabra     {::}
  | coma     {::}
 ;
 
-CONJUNTOEXP  ::=  id:var1 guion mayorq EXPRESION:var2 puntocoma    {:RESULT=new Expresion(var2, var1);:}
+CONJUNTOEXP  ::=  id:var1 guion mayorq EXPRESION:var2 puntocoma    {:RESULT=new Expresion(var2, var1, contador, hoja);:}
 ;
 
 EXPRESION  ::=  punto EXPRESION:var1 EXPRESION:var2      {:RESULT=new Nodo(var1, var2, ".", parser.contador, 0); parser.contador++;:}
@@ -73,7 +73,7 @@ EXPRESION  ::=  punto EXPRESION:var1 EXPRESION:var2      {:RESULT=new Nodo(var1,
  | interrogacion EXPRESION:var1                          {:RESULT=new Nodo(var1, null, "?", parser.contador, 0); parser.contador++;:}
  | cadena:var1                                           {:RESULT=new Nodo(null, null, var1.substring(1,var1.length()-1), parser.contador,parser.hoja); parser.contador++; parser.hoja++;:}
  | invertida comilla:var1                                {:RESULT=new Nodo(null, null, var1, parser.contador, parser.hoja); parser.contador++; parser.hoja++;:}
- | invertida palabra                                     {:System.out.println("salto");:}
+ | invertida:var1 palabra:var2                           {:RESULT=new Nodo(null, null, var1+var1+var2, parser.contador, parser.hoja); parser.contador++; parser.hoja++;:}
  | llave1 id:var1 llave2                                 {:RESULT=new Nodo(null, null, var1, parser.contador, parser.hoja); parser.contador++; parser.hoja++;:}
 ; 
 

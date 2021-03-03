@@ -12,23 +12,26 @@ package Objetos;
 public class Expresion {
     public Nodo raiz;
     public String nombre;
+    public int ultcontador;
+    public int ulthoja;
     
-    public Expresion(Nodo raiz, String nombre){
+    public Expresion(Nodo raiz, String nombre, int contador, int hoja){
         this.raiz = raiz;
         this.nombre = nombre;
+        this.ultcontador = contador;
+        this.ulthoja = hoja;
     }
     
-    public void AgregarRaiz(int hoja, int contador){
-        Nodo ultima = new Nodo(null, null, "#", contador, hoja);
-        Nodo rais = new Nodo(null, null, ".", contador, 0);
-        rais.hizq = raiz;
-        rais.hder = ultima;
+    public void AgregarRaiz(){
+        Nodo ultima = new Nodo(null, null, "#", ultcontador, ulthoja);
         ultima.setAnulabilidad();
         ultima.setPrimeraPos();
         ultima.setUltimaPos();
+        ultcontador +=1;
+        Nodo rais = new Nodo(raiz, ultima, ".", ultcontador, 0);
         rais.setAnulabilidad();
         rais.setPrimeraPos();
         rais.setUltimaPos();
-        raiz = rais;
+        this.raiz = rais;
     }
 }
