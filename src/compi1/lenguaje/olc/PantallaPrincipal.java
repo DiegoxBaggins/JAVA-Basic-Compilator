@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.swing. *;
 import javax.swing.filechooser. *;
 import analizadores.*;
+import Objetos.*;
 /**
  *
  * @author dalej
@@ -19,15 +20,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         initComponents();
     }
 
-    public static String Archivo = "";
+    public String Archivo = "";
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jMenu2 = new javax.swing.JMenu();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         TextAreaConsola = new javax.swing.JTextArea();
         BottonAnalizar = new javax.swing.JButton();
@@ -40,6 +39,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         VerAFDButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        TextArea1 = new javax.swing.JTextArea();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MenuNuevo = new javax.swing.JMenuItem();
@@ -56,12 +57,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1366, 768));
         setPreferredSize(new java.awt.Dimension(1400, 850));
 
-        TextArea1.setColumns(20);
-        TextArea1.setRows(5);
-        TextArea1.setMinimumSize(new java.awt.Dimension(400, 400));
-        TextArea1.setPreferredSize(new java.awt.Dimension(400, 400));
-        jScrollPane1.setViewportView(TextArea1);
-
+        TextAreaConsola.setEditable(false);
         TextAreaConsola.setColumns(20);
         TextAreaConsola.setRows(5);
         jScrollPane2.setViewportView(TextAreaConsola);
@@ -146,6 +142,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel1.setText("Imagen       ER:                ");
 
+        TextArea1.setColumns(20);
+        TextArea1.setRows(5);
+        jScrollPane3.setViewportView(TextArea1);
+
         jMenu1.setText("Archivo");
 
         MenuNuevo.setText("Nuevo");
@@ -197,7 +197,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                             .addComponent(BotonAFD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(46, 46, 46)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -210,8 +210,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                                     .addComponent(VerTransicionesButton, javax.swing.GroupLayout.Alignment.TRAILING)))
                             .addComponent(VerAFDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(83, 83, 83)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(73, 73, 73)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
@@ -223,12 +223,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(76, 76, 76)
@@ -253,7 +253,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                                         .addComponent(VerSiguientesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
                                 .addComponent(VerAFDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
 
         pack();
@@ -287,6 +287,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             parser sintactico;
             sintactico = new parser(new lexico(new StringReader(entrada)));
             sintactico.parse();
+            TextAreaConsola.setText(sintactico.Consola);
+            int elementos = sintactico.Expresiones.size();
+            System.out.println(elementos);
+            for (int i = 0; i < elementos; i++) {
+                Expresion expresion = sintactico.Expresiones.get(0);
+                Compi1LenguajeOLC.graficarArbol(expresion.raiz,expresion.nombre);
+            }
+            
         } catch (Exception e) {
         }
     }//GEN-LAST:event_BottonAnalizarActionPerformed
@@ -378,8 +386,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 
 

@@ -24,8 +24,8 @@ COMLINEA = ("//".*\r\n)|("//".*\n)|("//".*\r)
 CASO1 = [0-9]"~"[0-9]
 CASO2 = [a-z]"~"[a-z]
 CASO3 = [A-Z]"~"[A-Z]
-CADENA = [\"]([^\"\n]|(\\\"))*[\"]
 CASO4 =  [^\"\n~]"~"[^\"\n~]
+CADENA =  [\"]([^\"\n]|(\\\"))*[\"]
 %%
 
 "CONJ" {return new Symbol(sym.conj, yyline, yychar, yytext());}

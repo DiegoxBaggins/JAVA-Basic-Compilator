@@ -1,9 +1,18 @@
 package analizadores; 
 import java_cup.runtime.*;
+import compi1.lenguaje.OLC.*;
+import Objetos.*;
+import java.util.ArrayList;
 
 parser code 
 {:
     //Codigo que se le agrega al parser
+
+    public String Consola = "";
+
+    public static ArrayList<Expresion> Expresiones = new ArrayList<Expresion>();
+    public int contador;
+    public int hoja = 1;
 
     //Codigo para Errores Sintacticos
     public void syntax_error(Symbol s){ 
@@ -23,20 +32,22 @@ terminal String llave1,llave2,dospuntos,puntocoma,punto,coma,asterisco,barra,com
 terminal String palabra,id,casonum,casomin,casomayus,cadena,casosim;
 
 non terminal INICIO;
-non terminal CABEZA, CONJUNTO, EXPRESION, CUERPO, ELEMENTOS, CUERPOCONJUNTOS, CONJUNTOEXP, SIMBOLOGIA, SEPARAR;
-
+non terminal CABEZA, CONJUNTO, CUERPO, ELEMENTOS, CUERPOCONJUNTOS, SEPARAR, ELEMENTOCUERPO;
+non terminal Nodo EXPRESION;
+non terminal Expresion CONJUNTOEXP;
 
 start with INICIO; 
 
-INICIO  ::=  llave1 CABEZA    {:System.out.println("Cadena aceptada");:}
+INICIO  ::=  llave1 CABEZA SEPARAR CUERPO llave2  {:Consola += "aceptada";:}
 ;
 
-CABEZA  ::=  CONJUNTO CABEZA   {::}
- |  CONJUNTOEXP CABEZA     {::}
- |  SEPARAR CUERPO {::}
+CABEZA  ::=   CABEZA CONJUNTO     {::}
+ |   CABEZA CONJUNTOEXP           {::}
+ | CONJUNTO                       {::}
+ | CONJUNTOEXP:var1               {:Expresiones.add(var1);hoja = 1; contador = 0;:}
 ;
 
-CONJUNTO  ::=  conj dospuntos id guion mayorq CUERPOCONJUNTOS puntocoma    {:System.out.println("Elementos aceptados");:}
+CONJUNTO  ::=  conj dospuntos id guion mayorq CUERPOCONJUNTOS puntocoma    {::}
 ;
 
 CUERPOCONJUNTOS::= palabra ELEMENTOS 
@@ -46,28 +57,33 @@ CUERPOCONJUNTOS::= palabra ELEMENTOS
  |casosim
 ;
 
-ELEMENTOS  ::= coma ELEMENTOS      {::}
- | palabra ELEMENTOS  {::}
+ELEMENTOS  ::= ELEMENTOS palabra     {::}
+ | ELEMENTOS coma {::}
  | palabra      {::}
+ | coma     {::}
 ;
 
-CONJUNTOEXP  ::=  id guion mayorq EXPRESION puntocoma    {:System.out.println("Expresion aceptada");:}
+CONJUNTOEXP  ::=  id:var1 guion mayorq EXPRESION:var2 puntocoma    {:RESULT=new Expresion(var2, var1);:}
 ;
 
-EXPRESION  ::=  punto EXPRESION EXPRESION   {:System.out.println("Punto");:}
- | cadena   {:System.out.println("cadena");:}
- | invertida comilla  {:System.out.println("comilla");:}
- | invertida palabra  {:System.out.println("salto");:}
- | barra EXPRESION EXPRESION {:System.out.println("OR");:}
- | llave1 id llave2     {:System.out.println("conjunto");:}
- | asterisco EXPRESION      {:System.out.println("asterisco");:}
- | mas EXPRESION    {:System.out.println("mas");:}
- | interrogacion EXPRESION      {:System.out.println("Interrogacion");:}
+EXPRESION  ::=  punto EXPRESION:var1 EXPRESION:var2      {:RESULT=new Nodo(var1, var2, ".", parser.contador, 0); parser.contador++;:}
+ | barra EXPRESION:var1 EXPRESION:var2                   {:RESULT=new Nodo(var1, var2, "|", parser.contador, 0); parser.contador++;:}
+ | asterisco EXPRESION:var1                              {:RESULT=new Nodo(var1, null, "*", parser.contador, 0); parser.contador++;:}
+ | mas EXPRESION:var1                                    {:RESULT=new Nodo(var1, null, "+", parser.contador, 0); parser.contador++;:}
+ | interrogacion EXPRESION:var1                          {:RESULT=new Nodo(var1, null, "?", parser.contador, 0); parser.contador++;:}
+ | cadena:var1                                           {:RESULT=new Nodo(null, null, var1.substring(1,var1.length()-1), parser.contador,parser.hoja); parser.contador++; parser.hoja++;:}
+ | invertida comilla:var1                                {:RESULT=new Nodo(null, null, var1, parser.contador, parser.hoja); parser.contador++; parser.hoja++;:}
+ | invertida palabra                                     {:System.out.println("salto");:}
+ | llave1 id:var1 llave2                                 {:RESULT=new Nodo(null, null, var1, parser.contador, parser.hoja); parser.contador++; parser.hoja++;:}
 ; 
 
-CUERPO  ::=  id dospuntos cadena puntocoma CUERPO  {:System.out.println("Expresiones aceptada");:} 
- |  llave2  {:System.out.println("fin");:}
+SEPARAR ::= separador separador separador separador {:System.out.println("fin cabeza");:}
 ;
 
-SEPARAR ::= separador separador separador separador  {:System.out.println("fin cabeza");:}
+CUERPO  ::= CUERPO ELEMENTOCUERPO {:System.out.println("Expresiones aceptada");:}
+ |  ELEMENTOCUERPO  {:System.out.println("Expresiones aceptada");:}
 ;
+
+ELEMENTOCUERPO  ::=  id dospuntos cadena puntocoma     {::}
+;
+
