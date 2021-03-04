@@ -18,6 +18,7 @@ public class Nodo {
     public String anulable;
     public String primero;
     public String ultimo;
+    public String siguiente;
     
     public Nodo(Nodo izq, Nodo der, String valor, int id, int hoja){
         this.hizq = izq;
@@ -28,25 +29,21 @@ public class Nodo {
         this.anulable = "N";
         this.primero = valor;
         this.ultimo = valor;
+        this.siguiente = "";
         setAnulabilidad();
         setPrimeraPos();
         setUltimaPos();
     }
     
-    public String getCodigoInterno(){
+    public String getCodigoArbol(){
         String codigo = "";
-        if(hizq == null && hder == null){
-            String valor1 = ("|".equals(valor))?"\\|":valor;
-            codigo = "nodo" + id + "[shape=record label=\""+ primero +" |{ "+ anulable +" | " + valor1 + "| id:" + hoja + "} | " + ultimo + "\"]\n";
-        }else {
-            String valor1 = ("|".equals(valor))?"\\|":valor;
-            codigo = "nodo" + id + "[shape=record label=\""+ primero +" |{ "+ anulable +" | " + valor1 + "| id:" + hoja + "} | " + ultimo + "\"]\n";
-        }
+        String valor1 = ("|".equals(valor))?"\\|":valor;
+        codigo = "nodo" + id + "[shape=record label=\""+ primero +" |{ "+ anulable +" | " + valor1 + "| id:" + hoja + "} | " + ultimo + "\"]\n";
         if(hizq != null){
-            codigo += hizq.getCodigoInterno()+"nodo"+id+"->nodo"+hizq.id+";\n";
+            codigo += hizq.getCodigoArbol()+"nodo"+id+"->nodo"+hizq.id+";\n";
         }
         if(hder != null){
-            codigo += hder.getCodigoInterno()+"nodo"+id+"->nodo"+hder.id+";\n";
+            codigo += hder.getCodigoArbol()+"nodo"+id+"->nodo"+hder.id+";\n";
         }
         return codigo;
     }
@@ -125,6 +122,43 @@ public class Nodo {
         }
         else{
             ultimo = String.valueOf(hoja);
+        }
+    }
+    
+    public void setSiguientePos(String[][] siguientes){
+        if (hoja ==0){
+            if(".".equals(valor)){
+                String[] arreglo = hizq.ultimo.split(",");
+                int fila = 0;
+                for (String arreglo1 : arreglo) {
+                    fila = Integer.parseInt(arreglo1);
+                    siguientes[fila-1][2] += hder.primero + ",";
+                }
+            }
+            if("+".equals(valor)){
+                String[] arreglo = hizq.ultimo.split(",");
+                int fila = 0;
+                for (String arreglo1 : arreglo) {
+                    fila = Integer.parseInt(arreglo1);
+                    siguientes[fila-1][2] += hizq.primero + ",";
+                }
+            }
+            if("*".equals(valor)){
+                String[] arreglo = hizq.ultimo.split(",");
+                int fila = 0;
+                for (String arreglo1 : arreglo) {
+                    fila = Integer.parseInt(arreglo1);
+                    siguientes[fila-1][2] += hizq.primero + ",";
+                }
+            }
+        }else{
+            siguientes[hoja-1][1] = valor;
+        }
+        if(hizq != null){
+            hizq.setSiguientePos(siguientes);
+        }
+        if(hder != null){
+            hder.setSiguientePos(siguientes);
         }
     }
 }

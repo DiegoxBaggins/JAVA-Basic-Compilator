@@ -285,11 +285,13 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             TextAreaConsola.setText(sintactico.Consola);
             expresiones = sintactico.expresiones;
             int elementos = expresiones.size();
+            System.out.print(expresiones);
             for (int i = 0; i < elementos; i++) {
                 Expresion expresion = expresiones.get(i);
                 expresion.AgregarRaiz();
                 System.out.print(expresion.nombre);
-                Compi1LenguajeOLC.graficarArbol(expresion.raiz,expresion.nombre);
+                expresion.graficarArbol();
+                expresion.ConstruirSiguientes();
             }
             llenarCombo();
         } catch (Exception e) {
@@ -310,7 +312,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void VerArbolButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerArbolButonActionPerformed
         String nombre = (String)ComboBox1.getSelectedItem();
-        //labelImagen.setBounds(50,70,400,330);
         labelImagen.setIcon(new ImageIcon("./" + nombre + ".png"));
         labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
         (javax.swing.border.BevelBorder.RAISED));
@@ -329,7 +330,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_VerTransicionesButtonActionPerformed
 
     private void VerSiguientesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerSiguientesButtonActionPerformed
-        // TODO add your handling code here:
+        String nombre = (String)ComboBox1.getSelectedItem();
+        labelImagen.setIcon(new ImageIcon("./" + nombre + "Siguientes.png"));
+        labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
+        (javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_VerSiguientesButtonActionPerformed
 
     /**
