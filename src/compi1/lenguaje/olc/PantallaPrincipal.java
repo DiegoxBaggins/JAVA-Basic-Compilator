@@ -292,6 +292,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 System.out.print(expresion.nombre);
                 expresion.graficarArbol();
                 expresion.ConstruirSiguientes();
+                expresion.ConstruirTransi();
             }
             llenarCombo();
         } catch (Exception e) {

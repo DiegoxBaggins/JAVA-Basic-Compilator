@@ -7,6 +7,8 @@ package Objetos;
 
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.stream.Stream;
 
 /**
  *
@@ -18,12 +20,18 @@ public class Expresion {
     public int ultcontador;
     public int ulthoja;
     public String siguientes[][];
+    public ArrayList<Estado> estados;
+    public ArrayList<String> alfabeto;
+    public ArrayList<String[]> transiciones;
     
     public Expresion(Nodo raiz, String nombre, int contador, int hoja){
         this.raiz = raiz;
         this.nombre = nombre;
         this.ultcontador = contador;
         this.ulthoja = hoja;
+        this.estados = new ArrayList<Estado>();
+        this.alfabeto = new ArrayList<String>();
+        this.transiciones = new ArrayList<String[]>();
     }
     
     public void AgregarRaiz(){
@@ -164,4 +172,116 @@ public class Expresion {
         }  
     }
    
+    public void ConstruirTransi(){
+        crearAlfabeto();
+        int largoMatriz = alfabeto.size() + 2;
+        String[] contenedor0 = new String[largoMatriz];
+        Estado estado0 = new Estado("S0", raiz.primero);
+        estados.add(estado0);
+        contenedor0[0] = "S0";
+        contenedor0[1] = raiz.primero;
+        String[] arreglo = contenedor0[1].split(",");
+        String paso, valor, estado;
+        int fila, alfabeto;
+        transiciones.add(contenedor0);
+        for (String arreglo1 : arreglo) {
+            fila = Integer.parseInt(arreglo1)-1;
+            paso = siguientes[fila][2];
+            valor = siguientes[fila][1];
+            estado = buscarEstado(paso);
+            if (estado != null){
+                alfabeto = buscarAlfabeto(valor);
+                contenedor0[alfabeto] = estado;
+            }else{
+                Estado estadoNuevo = new Estado("S" + String.valueOf(estados.size()), paso);
+                estados.add(estadoNuevo);
+                alfabeto = buscarAlfabeto(valor);
+                contenedor0[alfabeto] = estadoNuevo.nombre;
+                String[] contenedorNuevo;
+                contenedorNuevo = new String[largoMatriz];
+                contenedorNuevo[0] = estadoNuevo.nombre;
+                contenedorNuevo[1] = estadoNuevo.hojas;
+                transiciones.add(contenedorNuevo);
+            }
+        }
+        
+        transiciones.set(0,contenedor0);
+        for (int i = 1; i <  transiciones.size(); i++) {
+            contenedor0 = transiciones.get(i);
+            arreglo = contenedor0[1].split(",");
+            for (String arreglo1 : arreglo) {
+                if (Integer.parseInt(arreglo1) == ulthoja){
+                    break;
+                }
+                fila = Integer.parseInt(arreglo1)-1;
+                paso = siguientes[fila][2];
+                valor = siguientes[fila][1];
+                estado = buscarEstado(paso);
+                if (estado != null){
+                    alfabeto = buscarAlfabeto(valor);
+                    contenedor0[alfabeto] = estado;
+                }else{
+                    Estado estadoNuevo = new Estado("S" + String.valueOf(estados.size()), paso);
+                    estados.add(estadoNuevo);
+                    alfabeto = buscarAlfabeto(valor);
+                    contenedor0[alfabeto] = estadoNuevo.nombre;
+                    String[] contenedorNuevo;
+                    contenedorNuevo = new String[largoMatriz];
+                    contenedorNuevo[0] = estadoNuevo.nombre;
+                    contenedorNuevo[1] = estadoNuevo.hojas;
+                    transiciones.add(contenedorNuevo);
+                }
+            }
+            //transiciones.set(i,contenedor0);
+        } 
+    }
+    
+    public String buscarEstado(String valores){
+        for (Estado estado : estados) {
+            if(estado.hojas.equals(valores)){
+                return estado.nombre; 
+            }
+        }
+        return null;
+    }
+    
+    public int buscarAlfabeto(String valores){
+        for (String estado : alfabeto) {
+            if(estado.equals(valores)){
+                return alfabeto.indexOf(estado) + 2; 
+            }
+        }
+        return 0;
+    }
+    
+    public void crearAlfabeto(){
+        String valor;
+        int aut;
+        for(int i = 0; i < ulthoja-1; i ++){
+            aut = 0;
+            valor = siguientes[i][1];
+            if (alfabeto.isEmpty()){
+                alfabeto.add(valor);
+            }else{
+                for (String alfabeto1 : alfabeto) {
+                    if (valor.equals(alfabeto1)){
+                        aut = 1;
+                        break;
+                    }
+                }
+                if (aut == 0){
+                    alfabeto.add(valor);
+                }
+            }
+        }
+        /*
+        String[] result = new String[2 + alfabeto.size()];
+        result[0] = "Estado";
+        result[1] = "Hojas";
+        for(int i = 0; i < alfabeto.size(); i++){
+            result[i+2] = alfabeto.get(i);
+        }
+        transiciones.add(result);
+        */
+    }
 }
