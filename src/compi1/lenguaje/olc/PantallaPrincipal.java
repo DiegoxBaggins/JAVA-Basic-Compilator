@@ -293,6 +293,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 expresion.graficarArbol();
                 expresion.ConstruirSiguientes();
                 expresion.ConstruirTransi();
+                expresion.GraficarTransi();
             }
             llenarCombo();
         } catch (Exception e) {
@@ -327,7 +328,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_VerAFDButtonActionPerformed
 
     private void VerTransicionesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerTransicionesButtonActionPerformed
-        // TODO add your handling code here:
+        String nombre = (String)ComboBox1.getSelectedItem();
+        labelImagen.setIcon(new ImageIcon("./" + nombre + "Transiciones.png"));
+        labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
+        (javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_VerTransicionesButtonActionPerformed
 
     private void VerSiguientesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerSiguientesButtonActionPerformed

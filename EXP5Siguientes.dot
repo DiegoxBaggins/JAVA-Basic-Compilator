@@ -2,5 +2,5 @@ digraph G{
 rankdir=UD
 node[shape=box]
 concentrate=true
-nodotabla[shape=record label="{1|2|3|4|5|6|7|8}|{'|\\n|minus|mayus|digito| |'|#}|{2,3,4,5,6|7,2,3,4,5,6|7,2,3,4,5,6|7,2,3,4,5,6|7,2,3,4,5,6|7,2,3,4,5,6|8|}"]
+nodotabla[shape=record label="{Hoja|1|2|3|4|5|6|7|8}|{Valor|'|\\n|minus|mayus|digito| |'|#}|{Siguiente Posicion|2,3,4,5,6|7,2,3,4,5,6|7,2,3,4,5,6|7,2,3,4,5,6|7,2,3,4,5,6|7,2,3,4,5,6|8|}"]
 }

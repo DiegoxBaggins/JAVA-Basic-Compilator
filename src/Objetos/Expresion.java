@@ -112,14 +112,20 @@ public class Expresion {
         }
         String codigo = "";
         codigo = "nodotabla" + "[shape=record label=\"";
-        for (int i = 0; i< 2; i++){
-            codigo += "{";
-            for (int j = 0; j< ulthoja-1; j ++){
-                codigo += siguientes[j][i]+"|"; 
-            }
-            codigo += siguientes[ulthoja-1][i] + "}|";
+        
+        codigo += "{Hoja|";
+        for (int j = 0; j< ulthoja-1; j ++){
+            codigo += siguientes[j][0]+"|"; 
         }
-        codigo += "{";
+        codigo += siguientes[ulthoja-1][0] + "}|";
+        
+        codigo += "{Valor|";
+        for (int j = 0; j< ulthoja-1; j ++){
+            codigo += siguientes[j][1]+"|"; 
+        }
+        codigo += siguientes[ulthoja-1][1] + "}|";
+        
+        codigo += "{Siguiente Posicion|";
         for (int j = 0; j< ulthoja-1; j ++){
                 codigo += siguientes[j][2] + "|"; 
             }
@@ -176,6 +182,7 @@ public class Expresion {
         crearAlfabeto();
         int largoMatriz = alfabeto.size() + 2;
         String[] contenedor0 = new String[largoMatriz];
+        llenarMatriz(contenedor0);
         Estado estado0 = new Estado("S0", raiz.primero);
         estados.add(estado0);
         contenedor0[0] = "S0";
@@ -199,6 +206,7 @@ public class Expresion {
                 contenedor0[alfabeto] = estadoNuevo.nombre;
                 String[] contenedorNuevo;
                 contenedorNuevo = new String[largoMatriz];
+                llenarMatriz(contenedorNuevo);
                 contenedorNuevo[0] = estadoNuevo.nombre;
                 contenedorNuevo[1] = estadoNuevo.hojas;
                 transiciones.add(contenedorNuevo);
@@ -227,6 +235,7 @@ public class Expresion {
                     contenedor0[alfabeto] = estadoNuevo.nombre;
                     String[] contenedorNuevo;
                     contenedorNuevo = new String[largoMatriz];
+                    llenarMatriz(contenedorNuevo);
                     contenedorNuevo[0] = estadoNuevo.nombre;
                     contenedorNuevo[1] = estadoNuevo.hojas;
                     transiciones.add(contenedorNuevo);
@@ -234,6 +243,92 @@ public class Expresion {
             }
             //transiciones.set(i,contenedor0);
         } 
+    }
+    
+    public void GraficarTransi(){
+        String codigo = "";
+        codigo = "nodotabla" + "[shape=record label=\"{Estado|";
+        for (int j = 0; j< estados.size()-1; j ++){
+            codigo += estados.get(j).nombre+"|"; 
+        }
+        codigo += estados.get(estados.size()-1).nombre + "}|";
+        System.out.println(codigo);
+        codigo += "{Hojas|";
+        
+        for (int j = 0; j< estados.size()-1; j ++){
+            codigo += transiciones.get(j)[1]+"|"; 
+        }
+        codigo += transiciones.get(estados.size()-1)[1] + "}|";
+        System.out.println(codigo);
+        
+        for (int i = 2; i < alfabeto.size()+1; i++){ 
+            codigo += "{";
+            codigo += alfabeto.get(i-2) + "|";
+            for (int j = 0; j< estados.size()-1; j ++){
+                   codigo += transiciones.get(j)[i] + "|";
+                }
+            codigo += transiciones.get(estados.size()-1)[i] + "}|";
+            System.out.println(codigo);
+        }
+        
+        codigo += "{" + alfabeto.get(alfabeto.size()-1) + "|";
+        for (int j = 0; j< estados.size()-1; j ++){
+                   codigo += transiciones.get(j)[alfabeto.size()+1] + "|";
+                }
+        codigo += transiciones.get(estados.size()-1)[alfabeto.size()+1] + "}\"]";
+        System.out.println(codigo);
+        
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try {
+            fichero = new FileWriter("./" + nombre + "Transiciones.dot");
+            pw = new PrintWriter(fichero);
+            pw.println("digraph G{");
+            pw.println("rankdir=UD");
+            pw.println("node[shape=box]");
+            pw.println("concentrate=true");
+            pw.println(codigo);
+            pw.println("}");
+        } catch (Exception e) {
+            System.out.println("error, no se realizo el archivo");
+        } finally {
+            try {
+                if (null != fichero) {
+                    fichero.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        try {
+            //direcciÃ³n doonde se ecnuentra el compilador de graphviz
+            String dotPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+            //direcciÃ³n del archivo dot
+            String fileInputPath = "./" + nombre + "Transiciones.dot";
+            //direcciÃ³n donde se creara la magen
+            String fileOutputPath = "./" + nombre + "Transiciones.png";
+            //tipo de conversÃ³n
+            String tParam = "-Tpng";
+            String tOParam = "-o";
+
+            String[] cmd = new String[5];
+            cmd[0] = dotPath;
+            cmd[1] = tParam;
+            cmd[2] = fileInputPath;
+            cmd[3] = tOParam;
+            cmd[4] = fileOutputPath;
+            Runtime rt = Runtime.getRuntime();
+            rt.exec(cmd);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+        }  
+    }
+    
+    public void llenarMatriz(String[] matriz){
+        for (int i = 0; i < matriz.length; i++){
+            matriz[i] = "--";
+        }
     }
     
     public String buscarEstado(String valores){
