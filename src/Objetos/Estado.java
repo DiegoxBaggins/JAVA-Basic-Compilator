@@ -12,9 +12,11 @@ package Objetos;
 public class Estado {
     public String nombre;
     public String hojas;
+    public String aceptacion;
     
     public Estado(String nombre, String hojas){
         this.nombre = nombre;
         this.hojas = hojas;
+        this.aceptacion = "N";
     }
 }

@@ -1,0 +1,14 @@
+digraph G{
+rankdir=LR
+concentrate=true
+nodoInicial [shape=none label=""]
+S0[shape=circle label="S0"]
+S1[shape=circle label="S1"]
+S2[shape=doublecircle label="S2"]
+nodoInicial->S0[label=""]
+S0->S1[label="@"]
+S1->S2[label="minus"]
+S1->S2[label="mayus"]
+S2->S2[label="minus \nmayus \nnum \n_ \n"]
+
+}

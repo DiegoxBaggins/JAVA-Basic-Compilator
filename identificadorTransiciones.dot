@@ -1,0 +1,6 @@
+digraph G{
+rankdir=UD
+node[shape=box]
+concentrate=true
+nodotabla[shape=record label="{Estado|S0|S1}|{Hojas|1|5,2,3,4}|{letra|S1|S1}|{_|--|S1}|{digito|--|S1}"]
+}

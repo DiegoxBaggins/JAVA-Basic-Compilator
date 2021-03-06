@@ -218,27 +218,26 @@ public class Expresion {
             contenedor0 = transiciones.get(i);
             arreglo = contenedor0[1].split(",");
             for (String arreglo1 : arreglo) {
-                if (Integer.parseInt(arreglo1) == ulthoja){
-                    break;
-                }
-                fila = Integer.parseInt(arreglo1)-1;
-                paso = siguientes[fila][2];
-                valor = siguientes[fila][1];
-                estado = buscarEstado(paso);
-                if (estado != null){
-                    alfabeto = buscarAlfabeto(valor);
-                    contenedor0[alfabeto] = estado;
-                }else{
-                    Estado estadoNuevo = new Estado("S" + String.valueOf(estados.size()), paso);
-                    estados.add(estadoNuevo);
-                    alfabeto = buscarAlfabeto(valor);
-                    contenedor0[alfabeto] = estadoNuevo.nombre;
-                    String[] contenedorNuevo;
-                    contenedorNuevo = new String[largoMatriz];
-                    llenarMatriz(contenedorNuevo);
-                    contenedorNuevo[0] = estadoNuevo.nombre;
-                    contenedorNuevo[1] = estadoNuevo.hojas;
-                    transiciones.add(contenedorNuevo);
+                if (Integer.parseInt(arreglo1) != ulthoja){                   
+                    fila = Integer.parseInt(arreglo1)-1;
+                    paso = siguientes[fila][2];
+                    valor = siguientes[fila][1];
+                    estado = buscarEstado(paso);
+                    if (estado != null){
+                        alfabeto = buscarAlfabeto(valor);
+                        contenedor0[alfabeto] = estado;
+                    }else{
+                        Estado estadoNuevo = new Estado("S" + String.valueOf(estados.size()), paso);
+                        estados.add(estadoNuevo);
+                        alfabeto = buscarAlfabeto(valor);
+                        contenedor0[alfabeto] = estadoNuevo.nombre;
+                        String[] contenedorNuevo;
+                        contenedorNuevo = new String[largoMatriz];
+                        llenarMatriz(contenedorNuevo);
+                        contenedorNuevo[0] = estadoNuevo.nombre;
+                        contenedorNuevo[1] = estadoNuevo.hojas;
+                        transiciones.add(contenedorNuevo);
+                    }
                 }
             }
             //transiciones.set(i,contenedor0);
@@ -252,14 +251,12 @@ public class Expresion {
             codigo += estados.get(j).nombre+"|"; 
         }
         codigo += estados.get(estados.size()-1).nombre + "}|";
-        System.out.println(codigo);
         codigo += "{Hojas|";
         
         for (int j = 0; j< estados.size()-1; j ++){
             codigo += transiciones.get(j)[1]+"|"; 
         }
         codigo += transiciones.get(estados.size()-1)[1] + "}|";
-        System.out.println(codigo);
         
         for (int i = 2; i < alfabeto.size()+1; i++){ 
             codigo += "{";
@@ -268,7 +265,6 @@ public class Expresion {
                    codigo += transiciones.get(j)[i] + "|";
                 }
             codigo += transiciones.get(estados.size()-1)[i] + "}|";
-            System.out.println(codigo);
         }
         
         codigo += "{" + alfabeto.get(alfabeto.size()-1) + "|";
@@ -276,7 +272,6 @@ public class Expresion {
                    codigo += transiciones.get(j)[alfabeto.size()+1] + "|";
                 }
         codigo += transiciones.get(estados.size()-1)[alfabeto.size()+1] + "}\"]";
-        System.out.println(codigo);
         
         FileWriter fichero = null;
         PrintWriter pw = null;
@@ -378,5 +373,102 @@ public class Expresion {
         }
         transiciones.add(result);
         */
+    }
+    
+    public void crearAFD(){
+        setAceptacion();
+        String codigo = "nodoInicial [shape=none label=\"\"]\n";
+        for (Estado estado : estados) {
+            codigo += estado.nombre + "[shape=";
+            if (estado.aceptacion.equals("A")){
+                codigo += "doublecircle label=\"" + estado.nombre + "\"]\n";
+            }else{
+                codigo += "circle label=\"" + estado.nombre + "\"]\n";
+            }
+        }
+        codigo += "nodoInicial->S0[label=\"\"]\n";
+        String estado, repetido;
+        String[] contenedor;
+        for (int i = 0; i < estados.size(); i++){
+            contenedor = transiciones.get(i);
+            estado = contenedor[0];
+            repetido = "";
+            for (int j = 0; j < alfabeto.size(); j++){
+                
+                if (!contenedor[j+2].equals("--")){
+                    if(estado.equals(contenedor[j+2])){
+                        repetido += alfabeto.get(j) + " \\n";
+                    }else{
+                        codigo += estado + "->" + contenedor[j+2] + "[label=\"" + alfabeto.get(j) + "\"]\n";
+                    }
+                }
+            }
+            if(!repetido.equals("")){
+                codigo += estado + "->" + estado + "[label=\"" + repetido + "\"]\n";
+            }
+        }
+        
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try {
+            fichero = new FileWriter("./" + nombre + "AFD.dot");
+            pw = new PrintWriter(fichero);
+            pw.println("digraph G{");
+            pw.println("rankdir=LR");
+            pw.println("concentrate=true");
+            pw.println(codigo);
+            pw.println("}");
+        } catch (Exception e) {
+            System.out.println("error, no se realizo el archivo");
+        } finally {
+            try {
+                if (null != fichero) {
+                    fichero.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        try {
+            //direcciÃ³n doonde se ecnuentra el compilador de graphviz
+            String dotPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+            //direcciÃ³n del archivo dot
+            String fileInputPath = "./" + nombre + "AFD.dot";
+            //direcciÃ³n donde se creara la magen
+            String fileOutputPath = "./" + nombre + "AFD.png";
+            //tipo de conversÃ³n
+            String tParam = "-Tpng";
+            String tOParam = "-o";
+
+            String[] cmd = new String[5];
+            cmd[0] = dotPath;
+            cmd[1] = tParam;
+            cmd[2] = fileInputPath;
+            cmd[3] = tOParam;
+            cmd[4] = fileOutputPath;
+            Runtime rt = Runtime.getRuntime();
+            rt.exec(cmd);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+        }
+    }
+    
+    public void setAceptacion(){
+        String ultimo;
+        String[] contenedor, arreglo;
+        ultimo = String.valueOf(raiz.hder.hoja);
+        for (int i = 0; i < estados.size(); i++){
+            contenedor = transiciones.get(i);
+            arreglo = contenedor[1].split(",");
+            for (String arreglo1 : arreglo){
+                if(arreglo1.equals(ultimo)){
+                    Estado estado = estados.get(i);
+                    estado.aceptacion = "A";
+                    estados.set(i,estado);
+                }
+            } 
+        }
+        
     }
 }

@@ -294,6 +294,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 expresion.ConstruirSiguientes();
                 expresion.ConstruirTransi();
                 expresion.GraficarTransi();
+                expresion.crearAFD();
             }
             llenarCombo();
         } catch (Exception e) {
@@ -301,7 +302,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_BottonAnalizarActionPerformed
 
     private void BotonAFDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAFDActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_BotonAFDActionPerformed
 
     private void MenuGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuGuardarComoActionPerformed
@@ -324,7 +325,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_VerAFNButtonActionPerformed
 
     private void VerAFDButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerAFDButtonActionPerformed
-        // TODO add your handling code here:
+        String nombre = (String)ComboBox1.getSelectedItem();
+        labelImagen.setIcon(new ImageIcon("./" + nombre + "AFD.png"));
+        labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
+        (javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_VerAFDButtonActionPerformed
 
     private void VerTransicionesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerTransicionesButtonActionPerformed

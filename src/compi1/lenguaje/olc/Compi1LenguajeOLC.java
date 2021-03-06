@@ -18,6 +18,7 @@ public class Compi1LenguajeOLC {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         PantallaPrincipal interfaz1 = new PantallaPrincipal();
         interfaz1.setVisible(true);
         interfaz1.setResizable(false);
