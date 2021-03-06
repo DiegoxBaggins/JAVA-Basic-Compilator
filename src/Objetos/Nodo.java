@@ -161,4 +161,97 @@ public class Nodo {
             hder.setSiguientePos(siguientes);
         }
     }
+    
+    public String[] getCodigoAFN(){
+        String codigo = "";
+        String [] codigos = new String[3];
+        codigos[0] = ""; codigos[1] = ""; codigos[2] = "";
+        if (hoja != 0){
+        String valor1 = ("|".equals(valor))?"\\|":valor;
+        codigo = "nodo" + id + "a [shape=circle label=\""+ id + "a\"]\n";
+        codigo += "nodo" + id + "b [shape=circle label=\""+ id + "b\"]\n";
+        codigo += "nodo" + id + "a -> " + "nodo" + id + "b[label=\""+ valor + "\"]\n";
+        codigos[0]= codigo;
+        codigos[1]="nodo" + id + "a";
+        codigos[2]="nodo" + id + "b";
+        }else{
+            if(valor.equals(".")){
+                String [] codigo1 = new String[3];
+                String [] codigo2 = new String[3];
+                codigo1[0] = ""; codigo1[1] = ""; codigo1[2] = "";
+                codigo2[0] = ""; codigo2[1] = ""; codigo2[2] = "";
+                codigo1 = hizq.getCodigoAFN();
+                codigo2 = hder.getCodigoAFN();
+                codigo = codigo1[0];
+                codigo += codigo2[0];
+                codigo += codigo1[2] + " -> " + codigo2[1] + "[label=\"ε\"]\n";
+                codigos[0] += codigo;
+                codigos[1] = codigo1[1];
+                codigos[2] = codigo2[2];
+            }
+            if(valor.equals("|")){
+                String [] codigo1 = new String[3];
+                String [] codigo2 = new String[3];
+                codigo1[0] = ""; codigo1[1] = ""; codigo1[2] = "";
+                codigo2[0] = ""; codigo2[1] = ""; codigo2[2] = "";
+                codigo1 = hizq.getCodigoAFN();
+                codigo2 = hder.getCodigoAFN();
+                codigo = codigo1[0];
+                codigo += codigo2[0];
+                codigo += "nodo" + id + "a [shape=circle label=\""+ id + "a\"]\n";
+                codigo += "nodo" + id + "b [shape=circle label=\""+ id + "b\"]\n";
+                codigo += "nodo" + id + "a" + " -> " + codigo1[1] + "[label=\"ε\"]\n";
+                codigo += "nodo" + id + "a" + " -> " + codigo2[1] + "[label=\"ε\"]\n";
+                codigo += codigo1[2] + "->" + "nodo" + id + "b" + "[label=\"ε\"]\n";
+                codigo += codigo2[2] + "->" + "nodo" + id + "b" + "[label=\"ε\"]\n";
+                codigos[0] += codigo;
+                codigos[1] = "nodo" + id + "a";
+                codigos[2] = "nodo" + id + "b";
+            }
+            if(valor.equals("+")){
+                String [] codigo1 = new String[3];
+                codigo1[0] = ""; codigo1[1] = ""; codigo1[2] = "";
+                codigo1 = hizq.getCodigoAFN();
+                codigo = codigo1[0];
+                codigo += "nodo" + id + "a [shape=circle label=\""+ id + "a\"]\n";
+                codigo += "nodo" + id + "b [shape=circle label=\""+ id + "b\"]\n";
+                codigo += "nodo" + id + "a" + " -> " + codigo1[1] + "[label=\"ε\"]\n";
+                codigo += codigo1[2] + "->" + "nodo" + id + "b" + "[label=\"ε\"]\n";
+                codigo += codigo1[2] + "->" + codigo1[1] + "[label=\"ε\"]\n";
+                codigos[0] += codigo;
+                codigos[1] = "nodo" + id + "a";
+                codigos[2] = "nodo" + id + "b";
+            }
+            if(valor.equals("*")){
+                String [] codigo1 = new String[3];
+                codigo1[0] = ""; codigo1[1] = ""; codigo1[2] = "";
+                codigo1 = hizq.getCodigoAFN();
+                codigo = codigo1[0];
+                codigo += "nodo" + id + "a [shape=circle label=\""+ id + "a\"]\n";
+                codigo += "nodo" + id + "b [shape=circle label=\""+ id + "b\"]\n";
+                codigo += "nodo" + id + "a" + " -> " + codigo1[1] + "[label=\"ε\"]\n";
+                codigo += codigo1[2] + "->" + "nodo" + id + "b" + "[label=\"ε\"]\n";
+                codigo += codigo1[2] + "->" + codigo1[1] + "[label=\"ε\"]\n";
+                codigo += "nodo" + id + "a ->" + "nodo" + id + "b [label=\"ε\"]\n";
+                codigos[0] += codigo;
+                codigos[1] = "nodo" + id + "a";
+                codigos[2] = "nodo" + id + "b";
+            }
+            if(valor.equals("?")){
+                String [] codigo1 = new String[3];
+                codigo1[0] = ""; codigo1[1] = ""; codigo1[2] = "";
+                codigo1 = hizq.getCodigoAFN();
+                codigo = codigo1[0];
+                codigo += "nodo" + id + "a [shape=circle label=\""+ id + "a\"]\n";
+                codigo += "nodo" + id + "b [shape=circle label=\""+ id + "b\"]\n";
+                codigo += "nodo" + id + "a" + " -> " + codigo1[1] + "[label=\"ε\"]\n";
+                codigo += codigo1[2] + "->" + "nodo" + id + "b" + "[label=\"ε\"]\n";
+                codigo += "nodo" + id + "a ->" + "nodo" + id + "b [label=\"ε\"]\n";
+                codigos[0] += codigo;
+                codigos[1] = "nodo" + id + "a";
+                codigos[2] = "nodo" + id + "b";
+            }
+        }        
+        return codigos;
+    }
 }

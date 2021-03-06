@@ -8,7 +8,6 @@ package Objetos;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 /**
  *
@@ -51,7 +50,7 @@ public class Expresion {
         FileWriter fichero = null;
         PrintWriter pw = null;
         try {
-            fichero = new FileWriter("./" + nombre + ".dot");
+            fichero = new FileWriter("./ARBOLES_201903969/" + nombre + ".dot");
             pw = new PrintWriter(fichero);
             pw.println("digraph G{");
             pw.println("rankdir=UD");
@@ -74,11 +73,11 @@ public class Expresion {
             //direcciÃ³n doonde se ecnuentra el compilador de graphviz
             String dotPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
             //direcciÃ³n del archivo dot
-            String fileInputPath = "./" + nombre + ".dot";
+            String fileInputPath = "./ARBOLES_201903969/" + nombre + ".dot";
             //direcciÃ³n donde se creara la magen
-            String fileOutputPath = "./" + nombre + ".png";
+            String fileOutputPath = "./ARBOLES_201903969/" + nombre + ".jpg";
             //tipo de conversÃ³n
-            String tParam = "-Tpng";
+            String tParam = "-Tjpg";
             String tOParam = "-o";
 
             String[] cmd = new String[5];
@@ -134,7 +133,7 @@ public class Expresion {
         FileWriter fichero = null;
         PrintWriter pw = null;
         try {
-            fichero = new FileWriter("./" + nombre + "Siguientes.dot");
+            fichero = new FileWriter("./SIGUIENTES_201903969/" + nombre + ".dot");
             pw = new PrintWriter(fichero);
             pw.println("digraph G{");
             pw.println("rankdir=UD");
@@ -157,11 +156,11 @@ public class Expresion {
             //direcciÃ³n doonde se ecnuentra el compilador de graphviz
             String dotPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
             //direcciÃ³n del archivo dot
-            String fileInputPath = "./" + nombre + "Siguientes.dot";
+            String fileInputPath = "./SIGUIENTES_201903969/" + nombre + ".dot";
             //direcciÃ³n donde se creara la magen
-            String fileOutputPath = "./" + nombre + "Siguientes.png";
+            String fileOutputPath = "./SIGUIENTES_201903969/" + nombre + ".jpg";
             //tipo de conversÃ³n
-            String tParam = "-Tpng";
+            String tParam = "-Tjpg";
             String tOParam = "-o";
 
             String[] cmd = new String[5];
@@ -276,7 +275,7 @@ public class Expresion {
         FileWriter fichero = null;
         PrintWriter pw = null;
         try {
-            fichero = new FileWriter("./" + nombre + "Transiciones.dot");
+            fichero = new FileWriter("./TRANSICIONES_201903969/" + nombre + ".dot");
             pw = new PrintWriter(fichero);
             pw.println("digraph G{");
             pw.println("rankdir=UD");
@@ -299,11 +298,11 @@ public class Expresion {
             //direcciÃ³n doonde se ecnuentra el compilador de graphviz
             String dotPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
             //direcciÃ³n del archivo dot
-            String fileInputPath = "./" + nombre + "Transiciones.dot";
+            String fileInputPath = "./TRANSICIONES_201903969/" + nombre + ".dot";
             //direcciÃ³n donde se creara la magen
-            String fileOutputPath = "./" + nombre + "Transiciones.png";
+            String fileOutputPath = "./TRANSICIONES_201903969/" + nombre + ".jpg";
             //tipo de conversÃ³n
-            String tParam = "-Tpng";
+            String tParam = "-Tjpg";
             String tOParam = "-o";
 
             String[] cmd = new String[5];
@@ -411,7 +410,7 @@ public class Expresion {
         FileWriter fichero = null;
         PrintWriter pw = null;
         try {
-            fichero = new FileWriter("./" + nombre + "AFD.dot");
+            fichero = new FileWriter("./AFD_201903969/" + nombre + ".dot");
             pw = new PrintWriter(fichero);
             pw.println("digraph G{");
             pw.println("rankdir=LR");
@@ -433,11 +432,11 @@ public class Expresion {
             //direcciÃ³n doonde se ecnuentra el compilador de graphviz
             String dotPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
             //direcciÃ³n del archivo dot
-            String fileInputPath = "./" + nombre + "AFD.dot";
+            String fileInputPath = "./AFD_201903969/" + nombre + ".dot";
             //direcciÃ³n donde se creara la magen
-            String fileOutputPath = "./" + nombre + "AFD.png";
+            String fileOutputPath = "./AFD_201903969/" + nombre + ".jpg";
             //tipo de conversÃ³n
-            String tParam = "-Tpng";
+            String tParam = "-Tjpg";
             String tOParam = "-o";
 
             String[] cmd = new String[5];
@@ -471,4 +470,59 @@ public class Expresion {
         }
         
     }
+    
+     public void graficarAFN(){
+        String [] codigos = new String[3];
+        codigos = raiz.hizq.getCodigoAFN();
+        String codigo = "nodoInicial [shape=none label=\"\"]\n";
+        codigo += "nodoInicial->" + codigos[1] + " [label=\"\"]\n";
+        codigo += codigos[0];
+        codigo += "nodoFinal [shape=doublecircle label=\"Final\"]\n";
+        codigo += codigos[2] + "->nodoFinal [label=\"ε\"]\n";
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        try {
+            fichero = new FileWriter("./AFND_201903969/" + nombre + ".dot");
+            pw = new PrintWriter(fichero);
+            pw.println("digraph G{");
+            pw.println("rankdir=LR");
+            pw.println("concentrate=true");
+            pw.println(codigo);
+            pw.println("}");
+        } catch (Exception e) {
+            System.out.println("error, no se realizo el archivo");
+        } finally {
+            try {
+                if (null != fichero) {
+                    fichero.close();
+                }
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        try {
+            //direcciÃ³n doonde se ecnuentra el compilador de graphviz
+            String dotPath = "C:\\Program Files\\Graphviz\\bin\\dot.exe";
+            //direcciÃ³n del archivo dot
+            String fileInputPath = "./AFND_201903969/" + nombre + ".dot";
+            //direcciÃ³n donde se creara la magen
+            String fileOutputPath = "./AFND_201903969/" + nombre + ".jpg";
+            //tipo de conversÃ³n
+            String tParam = "-Tjpg";
+            String tOParam = "-o";
+
+            String[] cmd = new String[5];
+            cmd[0] = dotPath;
+            cmd[1] = tParam;
+            cmd[2] = fileInputPath;
+            cmd[3] = tOParam;
+            cmd[4] = fileOutputPath;
+            Runtime rt = Runtime.getRuntime();
+            rt.exec(cmd);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        } finally {
+        }
+    }
+    
 }

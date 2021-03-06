@@ -33,18 +33,17 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         TextAreaConsola = new javax.swing.JTextArea();
         BottonAnalizar = new javax.swing.JButton();
-        BotonAFD = new javax.swing.JButton();
         ComboBox1 = new javax.swing.JComboBox<>();
         VerArbolButon = new javax.swing.JButton();
         VerAFNButton = new javax.swing.JButton();
         VerSiguientesButton = new javax.swing.JButton();
         VerTransicionesButton = new javax.swing.JButton();
         VerAFDButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         TextArea1 = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         labelImagen = new javax.swing.JLabel();
+        LabelTitulo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MenuNuevo = new javax.swing.JMenuItem();
@@ -59,10 +58,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         setMinimumSize(new java.awt.Dimension(1366, 768));
-        setPreferredSize(new java.awt.Dimension(1400, 850));
+        setPreferredSize(new java.awt.Dimension(1500, 800));
 
         TextAreaConsola.setEditable(false);
+        TextAreaConsola.setBackground(new java.awt.Color(51, 51, 51));
         TextAreaConsola.setColumns(20);
+        TextAreaConsola.setForeground(new java.awt.Color(255, 255, 255));
         TextAreaConsola.setRows(5);
         jScrollPane2.setViewportView(TextAreaConsola);
 
@@ -71,14 +72,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         BottonAnalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BottonAnalizarActionPerformed(evt);
-            }
-        });
-
-        BotonAFD.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        BotonAFD.setText("Generar AFD");
-        BotonAFD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BotonAFDActionPerformed(evt);
             }
         });
 
@@ -130,14 +123,14 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel1.setText("Imagen       ER:                ");
-
         TextArea1.setColumns(20);
         TextArea1.setRows(5);
         jScrollPane3.setViewportView(TextArea1);
 
         jScrollPane1.setViewportView(labelImagen);
+
+        LabelTitulo.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        LabelTitulo.setText("Imagen:");
 
         jMenu1.setText("Archivo");
 
@@ -184,69 +177,54 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(BottonAnalizar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(BotonAFD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(46, 46, 46)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BottonAnalizar))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(ComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(VerAFDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(ComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(VerArbolButon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(VerAFNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(VerArbolButon, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(VerSiguientesButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(VerTransicionesButton, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addComponent(VerAFDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
+                                .addComponent(VerAFNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1))))
-                .addGap(19, 19, 19))
+                            .addComponent(VerTransicionesButton)
+                            .addComponent(VerSiguientesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(LabelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(LabelTitulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(VerAFNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(VerTransicionesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(VerArbolButon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(VerAFDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(VerSiguientesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(76, 76, 76)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(BottonAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(BotonAFD, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(ComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(VerArbolButon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(VerAFNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(VerTransicionesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(VerSiguientesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addComponent(VerAFDButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(91, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(135, 135, 135))
         );
 
         pack();
@@ -295,15 +273,12 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 expresion.ConstruirTransi();
                 expresion.GraficarTransi();
                 expresion.crearAFD();
+                expresion.graficarAFN();
             }
             llenarCombo();
         } catch (Exception e) {
         }
     }//GEN-LAST:event_BottonAnalizarActionPerformed
-
-    private void BotonAFDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAFDActionPerformed
-        
-    }//GEN-LAST:event_BotonAFDActionPerformed
 
     private void MenuGuardarComoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuGuardarComoActionPerformed
         guardarArchivoNuevo();
@@ -315,32 +290,35 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void VerArbolButonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerArbolButonActionPerformed
         String nombre = (String)ComboBox1.getSelectedItem();
-        labelImagen.setIcon(new ImageIcon("./" + nombre + ".png"));
+        labelImagen.setIcon(new ImageIcon("./ARBOLES_201903969/" + nombre + ".jpg"));
         labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
         (javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_VerArbolButonActionPerformed
 
     private void VerAFNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerAFNButtonActionPerformed
-        // TODO add your handling code here:
+        String nombre = (String)ComboBox1.getSelectedItem();
+        labelImagen.setIcon(new ImageIcon("./AFND_201903969/" + nombre + ".jpg"));
+        labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
+        (javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_VerAFNButtonActionPerformed
 
     private void VerAFDButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerAFDButtonActionPerformed
         String nombre = (String)ComboBox1.getSelectedItem();
-        labelImagen.setIcon(new ImageIcon("./" + nombre + "AFD.png"));
+        labelImagen.setIcon(new ImageIcon("./AFD_201903969/" + nombre + ".jpg"));
         labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
         (javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_VerAFDButtonActionPerformed
 
     private void VerTransicionesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerTransicionesButtonActionPerformed
         String nombre = (String)ComboBox1.getSelectedItem();
-        labelImagen.setIcon(new ImageIcon("./" + nombre + "Transiciones.png"));
+        labelImagen.setIcon(new ImageIcon("./TRANSICIONES_201903969/" + nombre + ".jpg"));
         labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
         (javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_VerTransicionesButtonActionPerformed
 
     private void VerSiguientesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerSiguientesButtonActionPerformed
         String nombre = (String)ComboBox1.getSelectedItem();
-        labelImagen.setIcon(new ImageIcon("./" + nombre + "Siguientes.png"));
+        labelImagen.setIcon(new ImageIcon("./SIGUIENTES_201903969/" + nombre + ".jpg"));
         labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
         (javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_VerSiguientesButtonActionPerformed
@@ -381,9 +359,9 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BotonAFD;
     private javax.swing.JButton BottonAnalizar;
     private javax.swing.JComboBox<String> ComboBox1;
+    private javax.swing.JLabel LabelTitulo;
     private javax.swing.JMenuItem MenuAbrir;
     private javax.swing.JMenuItem MenuGuardar;
     private javax.swing.JMenuItem MenuGuardarComo;
@@ -395,7 +373,6 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton VerArbolButon;
     private javax.swing.JButton VerSiguientesButton;
     private javax.swing.JButton VerTransicionesButton;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
