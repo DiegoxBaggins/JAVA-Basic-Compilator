@@ -37,7 +37,7 @@ public class Nodo {
     
     public String getCodigoArbol(){
         String codigo = "";
-        String valor1 = ("|".equals(valor))?"\\|":valor;
+        String valor1 = ("|".equals(valor) || "\"".equals(valor))?"\\" + valor:valor;
         codigo = "nodo" + id + "[shape=record label=\""+ primero +" |{ "+ anulable +" | " + valor1 + "| id:" + hoja + "} | " + ultimo + "\"]\n";
         if(hizq != null){
             codigo += hizq.getCodigoArbol()+"nodo"+id+"->nodo"+hizq.id+";\n";
@@ -167,7 +167,7 @@ public class Nodo {
         String [] codigos = new String[3];
         codigos[0] = ""; codigos[1] = ""; codigos[2] = "";
         if (hoja != 0){
-        String valor1 = ("|".equals(valor))?"\\|":valor;
+        String valor1 = ("|".equals(valor) || "\"".equals(valor))?"\\" + valor:valor;
         codigo = "nodo" + id + "a [shape=circle label=\""+ id + "a\"]\n";
         codigo += "nodo" + id + "b [shape=circle label=\""+ id + "b\"]\n";
         codigo += "nodo" + id + "a -> " + "nodo" + id + "b[label=\""+ valor + "\"]\n";

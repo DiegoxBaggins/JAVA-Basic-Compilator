@@ -1,6 +1,6 @@
 package analizadores; 
 import java_cup.runtime.*;
-import compi1.lenguaje.OLC.*;
+import compi1.lenguaje.olc.*;
 import Objetos.*;
 import java.util.ArrayList;
 
@@ -17,7 +17,9 @@ parser code
     //Codigo para Errores Sintacticos
     public void syntax_error(Symbol s){ 
         System.out.println("Error SintÃ¡ctico en la LÃ­nea " + (s.left) +
-        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+"."); 
+        " Columna "+s.right+ ". No se esperaba este componente: " +s.value+".");
+        Errors nuevoError = new Errors("Tipo Sintactico (Recuperado)", s.value.toString(), s.right+1, s.left+1);
+        Compi1LenguajeOLC.Errores.add(nuevoError); 
     } 
 
     //Codigo para errores que ya no se pueden recuperar
@@ -25,6 +27,8 @@ parser code
         System.out.println("Error sÃ­ntactico irrecuperable en la LÃ­nea " + 
         (s.left)+ " Columna "+s.right+". Componente " + s.value + 
         " no reconocido."); 
+        Errors nuevoError = new Errors("Tipo Sintactico (No Recuperado)", s.value.toString(), s.right+1, s.left+1);
+        Compi1LenguajeOLC.Errores.add(nuevoError);
     }  
 :} 
 
@@ -45,6 +49,7 @@ CABEZA  ::=   CABEZA CONJUNTO     {::}
  |   CABEZA CONJUNTOEXP:var1      {:expresiones.add(var1);hoja = 1; contador = 0;:}
  | CONJUNTO                       {::}
  | CONJUNTOEXP:var1               {:expresiones.add(var1);hoja = 1; contador = 0;:}
+ | error puntocoma
 ;
 
 CONJUNTO  ::=  conj dospuntos id guion mayorq CUERPOCONJUNTOS puntocoma    {::}
@@ -61,6 +66,7 @@ ELEMENTOS  ::= ELEMENTOS palabra     {::}
  | ELEMENTOS coma {::}
  | palabra      {::}
  | coma     {::}
+ | error puntocoma
 ;
 
 CONJUNTOEXP  ::=  id:var1 guion mayorq EXPRESION:var2 puntocoma    {:RESULT=new Expresion(var2, var1, contador, hoja);:}
@@ -73,8 +79,10 @@ EXPRESION  ::=  punto EXPRESION:var1 EXPRESION:var2      {:RESULT=new Nodo(var1,
  | interrogacion EXPRESION:var1                          {:RESULT=new Nodo(var1, null, "?", parser.contador, 0); parser.contador++;:}
  | cadena:var1                                           {:RESULT=new Nodo(null, null, var1.substring(1,var1.length()-1), parser.contador,parser.hoja); parser.contador++; parser.hoja++;:}
  | invertida comilla:var1                                {:RESULT=new Nodo(null, null, var1, parser.contador, parser.hoja); parser.contador++; parser.hoja++;:}
+ | invertida:var1 comillas:var2                          {:RESULT=new Nodo(null, null, var1+var2, parser.contador, parser.hoja); parser.contador++; parser.hoja++;:}
  | invertida:var1 palabra:var2                           {:RESULT=new Nodo(null, null, var1+var1+var2, parser.contador, parser.hoja); parser.contador++; parser.hoja++;:}
  | llave1 id:var1 llave2                                 {:RESULT=new Nodo(null, null, var1, parser.contador, parser.hoja); parser.contador++; parser.hoja++;:}
+ | error
 ; 
 
 SEPARAR ::= separador separador separador separador {:System.out.println("fin cabeza");:}
@@ -82,6 +90,7 @@ SEPARAR ::= separador separador separador separador {:System.out.println("fin ca
 
 CUERPO  ::= CUERPO ELEMENTOCUERPO {:System.out.println("Expresiones aceptada");:}
  |  ELEMENTOCUERPO  {:System.out.println("Expresiones aceptada");:}
+ | error puntocoma
 ;
 
 ELEMENTOCUERPO  ::=  id dospuntos cadena puntocoma     {::}

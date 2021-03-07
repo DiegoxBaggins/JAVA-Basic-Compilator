@@ -56,6 +56,6 @@ nodo11a -> nodo11b[label="'"]
 nodo10b -> nodo11a[label="ε"]
 nodo0b -> nodo10a[label="ε"]
 nodoFinal [shape=doublecircle label="Final"]
-nodo11b->nodoFinal [label=""]
+nodo11b->nodoFinal [label="ε"]
 
 }

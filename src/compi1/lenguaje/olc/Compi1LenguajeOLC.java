@@ -7,6 +7,7 @@ package compi1.lenguaje.olc;
 
 import Objetos.*;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -14,6 +15,7 @@ import java.io.*;
  */
 public class Compi1LenguajeOLC {
 
+    public static ArrayList<Errors> Errores = new ArrayList<Errors>();
     /**
      * @param args the command line arguments
      */

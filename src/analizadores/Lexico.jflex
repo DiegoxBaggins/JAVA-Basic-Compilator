@@ -1,5 +1,7 @@
 package analizadores;
 import java_cup.runtime.Symbol;
+import compi1.lenguaje.olc.*;
+import Objetos.*;
 
 %%
 
@@ -26,6 +28,15 @@ CASO2 = [a-z]"~"[a-z]
 CASO3 = [A-Z]"~"[A-Z]
 CASO4 =  [^\"\n~]"~"[^\"\n~]
 CADENA =  [\"]([^\"\n]|(\\\"))*[\"]
+
+%{
+    public void agregarError(String tipo, String valor, int fila, int columna)
+    {
+        Errors nuevoError = new Errors(tipo, valor, fila+1, columna+1);
+        Compi1LenguajeOLC.Errores.add(nuevoError);
+    }
+%}
+
 %%
 
 "CONJ" {return new Symbol(sym.conj, yyline, yychar, yytext());}
@@ -62,5 +73,6 @@ CADENA =  [\"]([^\"\n]|(\\\"))*[\"]
 . {
     System.out.println("Este es un error lexico: "+yytext()+
     ", en la linea: "+yyline+", en la columna: "+yychar);
+    agregarError("Lexico", yytext(), yyline, yycolumn);
 }   
      

@@ -25,6 +25,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     public String Archivo = "";
     public ArrayList<Expresion> expresiones = new ArrayList<>();
     
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -127,6 +128,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         TextArea1.setRows(5);
         jScrollPane3.setViewportView(TextArea1);
 
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 255, 255)));
         jScrollPane1.setViewportView(labelImagen);
 
         LabelTitulo.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -197,7 +199,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                             .addComponent(VerTransicionesButton)
                             .addComponent(VerSiguientesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(LabelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,19 +257,21 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         try {
             ComboBox1.removeAllItems();
             labelImagen.setIcon(null);
+            Compi1LenguajeOLC.Errores.clear();
             String entrada = TextArea1.getText();
             System.out.println();
             parser sintactico;
             sintactico = new parser(new lexico(new StringReader(entrada)));
             sintactico.parse();
-            TextAreaConsola.setText(sintactico.Consola);
+            TextAreaConsola.setText(mostarErrores());
+            generarHTML();
             expresiones = sintactico.expresiones;
             int elementos = expresiones.size();
-            System.out.print(expresiones);
+            //System.out.print(expresiones);
             for (int i = 0; i < elementos; i++) {
                 Expresion expresion = expresiones.get(i);
                 expresion.AgregarRaiz();
-                System.out.print(expresion.nombre);
+                //System.out.print(expresion.nombre);
                 expresion.graficarArbol();
                 expresion.ConstruirSiguientes();
                 expresion.ConstruirTransi();
@@ -293,70 +297,48 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         labelImagen.setIcon(new ImageIcon("./ARBOLES_201903969/" + nombre + ".jpg"));
         labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
         (javax.swing.border.BevelBorder.RAISED));
+        LabelTitulo.setText("Arbol: "+ nombre);
     }//GEN-LAST:event_VerArbolButonActionPerformed
 
     private void VerAFNButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerAFNButtonActionPerformed
+        labelImagen.setIcon(null);
         String nombre = (String)ComboBox1.getSelectedItem();
         labelImagen.setIcon(new ImageIcon("./AFND_201903969/" + nombre + ".jpg"));
         labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
         (javax.swing.border.BevelBorder.RAISED));
+        LabelTitulo.setText("AFND: "+ nombre);
     }//GEN-LAST:event_VerAFNButtonActionPerformed
 
     private void VerAFDButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerAFDButtonActionPerformed
+        labelImagen.setIcon(null);
         String nombre = (String)ComboBox1.getSelectedItem();
         labelImagen.setIcon(new ImageIcon("./AFD_201903969/" + nombre + ".jpg"));
         labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
         (javax.swing.border.BevelBorder.RAISED));
+        LabelTitulo.setText("AFD: "+ nombre);
     }//GEN-LAST:event_VerAFDButtonActionPerformed
 
     private void VerTransicionesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerTransicionesButtonActionPerformed
+        labelImagen.setIcon(null);
         String nombre = (String)ComboBox1.getSelectedItem();
         labelImagen.setIcon(new ImageIcon("./TRANSICIONES_201903969/" + nombre + ".jpg"));
         labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
         (javax.swing.border.BevelBorder.RAISED));
+        LabelTitulo.setText("Tabla de Transiciones: "+ nombre);
     }//GEN-LAST:event_VerTransicionesButtonActionPerformed
 
     private void VerSiguientesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerSiguientesButtonActionPerformed
+        labelImagen.setIcon(null);
         String nombre = (String)ComboBox1.getSelectedItem();
         labelImagen.setIcon(new ImageIcon("./SIGUIENTES_201903969/" + nombre + ".jpg"));
         labelImagen.setBorder(javax.swing.BorderFactory.createBevelBorder
         (javax.swing.border.BevelBorder.RAISED));
+        LabelTitulo.setText("Tabla Siguiente: "+ nombre);
     }//GEN-LAST:event_VerSiguientesButtonActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PantallaPrincipal().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BottonAnalizar;
@@ -470,6 +452,61 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         for (int i = 0; i < elementos; i++) {
             Expresion expresion = expresiones.get(i);
             ComboBox1.addItem(expresion.nombre);
+        }
+    }
+    
+    private static String mostarErrores (){
+        String codigo = "";
+        for (Errors Errore : Compi1LenguajeOLC.Errores) {
+        codigo +="Error de tipo " + Errore.tipo + " en la Linea " + 
+        Errore.fila + " y columna "+ Errore.columna +". Componente " + Errore.valor + 
+        " no reconocido.\n";
+        }
+        return codigo;
+    }
+    
+    public static void generarHTML() throws IOException{
+        FileWriter fichero = null;
+                PrintWriter pw = null;
+                try {
+                    fichero = new FileWriter("./ERRORES_201903969/errores.html");
+                    pw = new PrintWriter(fichero);
+                    pw.println("<html>");
+                    pw.println("<head><title>REPORTE DE ERRORES</title></head>");
+                    pw.println("<body>");
+                    pw.println("<div align=\"center\">");
+                    pw.println("<h1>Reporte de Errores</h1>");
+                    pw.println("<br></br>");
+                    pw.println("<table border=1>");
+                    pw.println("<tr>");
+                    pw.println("<td bgcolor=yellow>TIPO</td>");
+                    pw.println("<td bgcolor=yellow>VALOR</td>");
+                    pw.println("<td bgcolor=yellow>FILA</td>");
+                    pw.println("<td bgcolor=yellow>COLUMNA</td>");
+                    pw.println("</tr>");
+                    for(int i=0;i<Compi1LenguajeOLC.Errores.size();i++){
+                        pw.println("<tr>");
+                        pw.println("<td>"+Compi1LenguajeOLC.Errores.get(i).tipo  + "</td>");
+                        pw.println("<td>"+Compi1LenguajeOLC.Errores.get(i).valor + "</td>");
+                        pw.println("<td>"+Compi1LenguajeOLC.Errores.get(i).fila + "</td>");
+                        pw.println("<td>"+Compi1LenguajeOLC.Errores.get(i).columna + "</td>");
+                        pw.println("</tr>");
+                    }
+                    pw.println("</table>");
+                    pw.println("</div");
+                    pw.println("</body>");
+                    pw.println("</html>");
+                } catch (Exception e) {
+                }finally{
+                    if(null!=fichero){
+                            fichero.close();
+                    }
+                }
+                try {
+            //Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "Reportes\\"+"Reporte ErroresL.html");
+            //System.out.println("Final");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

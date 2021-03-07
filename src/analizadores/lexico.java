@@ -2,6 +2,8 @@
 
 package analizadores;
 import java_cup.runtime.Symbol;
+import compi1.lenguaje.olc.*;
+import Objetos.*;
 
 
 /**
@@ -265,6 +267,13 @@ public class lexico implements java_cup.runtime.Scanner {
    * otherwise, it will have a value of 0.
    */
   private int zzFinalHighSurrogate = 0;
+
+  /* user code: */
+    public void agregarError(String tipo, String valor, int fila, int columna)
+    {
+        Errors nuevoError = new Errors(tipo, valor, fila+1, columna+1);
+        Compi1LenguajeOLC.Errores.add(nuevoError);
+    }
 
 
   /**
@@ -653,6 +662,7 @@ public class lexico implements java_cup.runtime.Scanner {
           case 1: 
             { System.out.println("Este es un error lexico: "+yytext()+
     ", en la linea: "+yyline+", en la columna: "+yychar);
+    agregarError("Lexico", yytext(), yyline, yycolumn);
             } 
             // fall through
           case 28: break;
