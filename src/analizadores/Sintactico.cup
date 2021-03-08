@@ -11,8 +11,11 @@ parser code
     public String Consola = "";
 
     public ArrayList<Expresion> expresiones = new ArrayList<Expresion>();
+    public ArrayList<Estado> alfabeto = new ArrayList<>();
+    public ArrayList<Estado> cadenas = new ArrayList<>();
     public int contador;
     public int hoja = 1;
+    public String letras = "";
 
     //Codigo para Errores Sintacticos
     public void syntax_error(Symbol s){ 
@@ -29,16 +32,29 @@ parser code
         " no reconocido."); 
         Errors nuevoError = new Errors("Tipo Sintactico (No Recuperado)", s.value.toString(), s.right+1, s.left+1);
         Compi1LenguajeOLC.Errores.add(nuevoError);
-    }  
+    }
+
+    public void agregarAlfabeto(Estado estado, String nombre){
+        estado.nombre = nombre;
+        alfabeto.add(estado);
+    }
+
+    public void agregarCadena(String nombre, String valor){
+        Estado estado = new Estado(nombre, valor);
+        estado.aceptacion = "";
+        cadenas.add(estado);
+    }
 :} 
 
 terminal String llave1,llave2,dospuntos,puntocoma,punto,coma,asterisco,barra,comillas,comilla,mas,interrogacion,conj,guion,mayorq,separador,invertida;
 terminal String palabra,id,casonum,casomin,casomayus,cadena,casosim;
 
 non terminal INICIO;
-non terminal CABEZA, CONJUNTO, CUERPO, ELEMENTOS, CUERPOCONJUNTOS, SEPARAR, ELEMENTOCUERPO;
+non terminal CABEZA, CONJUNTO, CUERPO, SEPARAR, ELEMENTOCUERPO;
 non terminal Nodo EXPRESION;
 non terminal Expresion CONJUNTOEXP;
+non terminal Estado CUERPOCONJUNTOS;
+non terminal ELEMENTOS;
 
 start with INICIO; 
 
@@ -52,20 +68,20 @@ CABEZA  ::=   CABEZA CONJUNTO     {::}
  | error puntocoma
 ;
 
-CONJUNTO  ::=  conj dospuntos id guion mayorq CUERPOCONJUNTOS puntocoma    {::}
+CONJUNTO  ::=  conj dospuntos id:var1 guion mayorq CUERPOCONJUNTOS:var2 puntocoma    {:agregarAlfabeto(var2, var1);:}
 ;
 
-CUERPOCONJUNTOS::= palabra ELEMENTOS 
- |casomin
- |casomayus
- |casonum
- |casosim
+CUERPOCONJUNTOS::= ELEMENTOS          {:RESULT=new Estado("",letras,"V");letras="";:}
+ |casomin:var1                        {:RESULT=new Estado("",var1,"C");:}
+ |casomayus:var1                      {:RESULT=new Estado("",var1,"C");:}
+ |casonum:var1                        {:RESULT=new Estado("",var1,"C");:}
+ |casosim:var1                        {:RESULT=new Estado("",var1,"C");:}
 ;
 
-ELEMENTOS  ::= ELEMENTOS palabra     {::}
- | ELEMENTOS coma {::}
- | palabra      {::}
- | coma     {::}
+ELEMENTOS  ::= ELEMENTOS palabra:var1     {:letras += var1;:}
+ | ELEMENTOS coma:var1                    {:letras += var1;:}
+ | palabra:var1                           {:letras += var1;:}
+ | coma:var1                              {:letras += var1;:}
  | error puntocoma
 ;
 
@@ -85,14 +101,14 @@ EXPRESION  ::=  punto EXPRESION:var1 EXPRESION:var2      {:RESULT=new Nodo(var1,
  | error
 ; 
 
-SEPARAR ::= separador separador separador separador {:System.out.println("fin cabeza");:}
+SEPARAR ::= separador separador separador separador     {:System.out.println("fin cabeza");:}
 ;
 
-CUERPO  ::= CUERPO ELEMENTOCUERPO {:System.out.println("Expresiones aceptada");:}
- |  ELEMENTOCUERPO  {:System.out.println("Expresiones aceptada");:}
+CUERPO  ::= CUERPO ELEMENTOCUERPO                       
+ |  ELEMENTOCUERPO                                      
  | error puntocoma
 ;
 
-ELEMENTOCUERPO  ::=  id dospuntos cadena puntocoma     {::}
+ELEMENTOCUERPO  ::=  id:var1 dospuntos cadena:var2 puntocoma     {:agregarCadena(var1, var2.substring(1,var2.length()-1));:}
 ;
 

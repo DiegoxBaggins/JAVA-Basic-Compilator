@@ -24,6 +24,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     public String Archivo = "";
     public ArrayList<Expresion> expresiones = new ArrayList<>();
+    public ArrayList<Estado> alfabeto = new ArrayList<>();
+    public ArrayList<Estado> cadenas = new ArrayList<>();
     
     
     @SuppressWarnings("unchecked")
@@ -128,7 +130,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         TextArea1.setRows(5);
         jScrollPane3.setViewportView(TextArea1);
 
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(204, 255, 255)));
+        jScrollPane1.setBackground(new java.awt.Color(153, 255, 153));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jScrollPane1.setViewportView(labelImagen);
 
         LabelTitulo.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -183,8 +186,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(BottonAnalizar))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(ComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -198,7 +200,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(VerTransicionesButton)
                             .addComponent(VerSiguientesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(LabelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 767, Short.MAX_VALUE))
+                    .addComponent(LabelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 767, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 758, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -209,8 +212,8 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(LabelTitulo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(41, 41, 41)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 529, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(VerAFNButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(VerTransicionesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,6 +248,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_MenuGuardarActionPerformed
 
     private void MenuNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuNuevoActionPerformed
+        Archivo = "";
         PantallaPrincipal interfaz1 = new PantallaPrincipal();
         //interfaz1.setBounds(0,0,800,600);
         interfaz1.setVisible(true);
@@ -255,6 +259,7 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
     private void BottonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BottonAnalizarActionPerformed
         try {
+            String consola = "";
             ComboBox1.removeAllItems();
             labelImagen.setIcon(null);
             Compi1LenguajeOLC.Errores.clear();
@@ -263,9 +268,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
             parser sintactico;
             sintactico = new parser(new lexico(new StringReader(entrada)));
             sintactico.parse();
-            TextAreaConsola.setText(mostarErrores());
+            consola += mostarErrores();
             generarHTML();
             expresiones = sintactico.expresiones;
+            alfabeto = sintactico.alfabeto;
+            cadenas = sintactico.cadenas;
             int elementos = expresiones.size();
             //System.out.print(expresiones);
             for (int i = 0; i < elementos; i++) {
@@ -279,7 +286,10 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                 expresion.crearAFD();
                 expresion.graficarAFN();
             }
+            consola += evaluarCadena();
+            generarJSON();
             llenarCombo();
+            TextAreaConsola.setText(consola);
         } catch (Exception e) {
         }
     }//GEN-LAST:event_BottonAnalizarActionPerformed
@@ -496,6 +506,74 @@ public class PantallaPrincipal extends javax.swing.JFrame {
                     pw.println("</div");
                     pw.println("</body>");
                     pw.println("</html>");
+                } catch (Exception e) {
+                }finally{
+                    if(null!=fichero){
+                            fichero.close();
+                    }
+                }
+                try {
+            //Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + "Reportes\\"+"Reporte ErroresL.html");
+            //System.out.println("Final");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private String evaluarCadena(){
+        String evaluacion = "";
+        alfabeto.forEach(alfabeto1 -> {
+            System.out.println(alfabeto1.nombre + "  " + alfabeto1.hojas + "  " + alfabeto1.aceptacion);
+        });
+        cadenas.forEach(alfabeto1 -> {
+            System.out.println(alfabeto1.nombre + "  " + alfabeto1.hojas + "  " + alfabeto1.aceptacion);
+        });
+        for(Estado alfabeto1 :cadenas){
+            for (Expresion expresione : expresiones) {
+                if (expresione.nombre.equals(alfabeto1.nombre)){
+                    alfabeto1.aceptacion = expresione.evaluarCadena(alfabeto1.hojas, alfabeto);
+                } 
+            }
+            System.out.println(alfabeto1.nombre + "  " + alfabeto1.hojas + "  " + alfabeto1.aceptacion);
+            evaluacion += "Cadena: " + alfabeto1.hojas + "  Evaluada con: " + alfabeto1.nombre + "   Resultado:" + alfabeto1.aceptacion + "\n";
+        }
+        return evaluacion;
+    }
+    
+    public void generarJSON() throws IOException{
+        String nombre = "salidas";
+        if (!"".equals(Archivo)){
+            try {
+            File f = null;
+            f = new File(Archivo);
+            nombre = f.getName();
+            System.out.println("File name: "+ nombre);
+
+            } catch(Exception e) {
+              e.printStackTrace();
+            }   
+        }
+        FileWriter fichero = null;
+                PrintWriter pw = null;
+                try {
+                    fichero = new FileWriter("./Salidas_201903969/" + nombre + ".json");
+                    pw = new PrintWriter(fichero);
+                    pw.println("[");
+                    for(int i = 0; i < cadenas.size()-1; i ++){
+                        Estado alfabeto1 = cadenas.get(i);
+                        pw.println("    {");
+                        pw.println("        \"Valor\":\""+ alfabeto1.hojas + "\",");
+                        pw.println("        \"ExpresionRegular\":\""+ alfabeto1.nombre + "\",");
+                        pw.println("        \"Resultado\":\""+ alfabeto1.aceptacion + "\"");
+                        pw.println("    },");
+                    }
+                    Estado alfabeto1 = cadenas.get(cadenas.size()-1);
+                        pw.println("    {");
+                        pw.println("        \"Valor\":\""+ alfabeto1.hojas + "\",");
+                        pw.println("        \"ExpresionRegular\":\""+ alfabeto1.nombre + "\",");
+                        pw.println("        \"Resultado\":\""+ alfabeto1.aceptacion + "\"");
+                        pw.println("    }");
+                    pw.println("]");
                 } catch (Exception e) {
                 }finally{
                     if(null!=fichero){

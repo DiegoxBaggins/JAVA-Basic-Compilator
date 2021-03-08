@@ -30,6 +30,6 @@ nodo4b->nodo5b[label="ε"]
 nodo4b->nodo4a[label="ε"]
 nodo1b -> nodo5a[label="ε"]
 nodoFinal [shape=doublecircle label="Final"]
-nodo5b->nodoFinal [label=""]
+nodo5b->nodoFinal [label="ε"]
 
 }

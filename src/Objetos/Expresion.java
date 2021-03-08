@@ -20,7 +20,7 @@ public class Expresion {
     public int ulthoja;
     public String siguientes[][];
     public ArrayList<Estado> estados;
-    public ArrayList<String> alfabeto;
+    public ArrayList<String> terminales;
     public ArrayList<String[]> transiciones;
     
     public Expresion(Nodo raiz, String nombre, int contador, int hoja){
@@ -29,7 +29,7 @@ public class Expresion {
         this.ultcontador = contador;
         this.ulthoja = hoja;
         this.estados = new ArrayList<Estado>();
-        this.alfabeto = new ArrayList<String>();
+        this.terminales = new ArrayList<String>();
         this.transiciones = new ArrayList<String[]>();
     }
     
@@ -179,7 +179,7 @@ public class Expresion {
    
     public void ConstruirTransi(){
         crearAlfabeto();
-        int largoMatriz = alfabeto.size() + 2;
+        int largoMatriz = terminales.size() + 2;
         String[] contenedor0 = new String[largoMatriz];
         llenarMatriz(contenedor0);
         Estado estado0 = new Estado("S0", raiz.primero);
@@ -257,20 +257,20 @@ public class Expresion {
         }
         codigo += transiciones.get(estados.size()-1)[1] + "}|";
         
-        for (int i = 2; i < alfabeto.size()+1; i++){ 
+        for (int i = 2; i < terminales.size()+1; i++){ 
             codigo += "{";
-            codigo += alfabeto.get(i-2) + "|";
+            codigo += terminales.get(i-2) + "|";
             for (int j = 0; j< estados.size()-1; j ++){
                    codigo += transiciones.get(j)[i] + "|";
                 }
             codigo += transiciones.get(estados.size()-1)[i] + "}|";
         }
         
-        codigo += "{" + alfabeto.get(alfabeto.size()-1) + "|";
+        codigo += "{" + terminales.get(terminales.size()-1) + "|";
         for (int j = 0; j< estados.size()-1; j ++){
-                   codigo += transiciones.get(j)[alfabeto.size()+1] + "|";
+                   codigo += transiciones.get(j)[terminales.size()+1] + "|";
                 }
-        codigo += transiciones.get(estados.size()-1)[alfabeto.size()+1] + "}\"]";
+        codigo += transiciones.get(estados.size()-1)[terminales.size()+1] + "}\"]";
         
         FileWriter fichero = null;
         PrintWriter pw = null;
@@ -335,9 +335,9 @@ public class Expresion {
     }
     
     public int buscarAlfabeto(String valores){
-        for (String estado : alfabeto) {
+        for (String estado : terminales) {
             if(estado.equals(valores)){
-                return alfabeto.indexOf(estado) + 2; 
+                return terminales.indexOf(estado) + 2; 
             }
         }
         return 0;
@@ -349,17 +349,17 @@ public class Expresion {
         for(int i = 0; i < ulthoja-1; i ++){
             aut = 0;
             valor = siguientes[i][1];
-            if (alfabeto.isEmpty()){
-                alfabeto.add(valor);
+            if (terminales.isEmpty()){
+                terminales.add(valor);
             }else{
-                for (String alfabeto1 : alfabeto) {
+                for (String alfabeto1 : terminales) {
                     if (valor.equals(alfabeto1)){
                         aut = 1;
                         break;
                     }
                 }
                 if (aut == 0){
-                    alfabeto.add(valor);
+                    terminales.add(valor);
                 }
             }
         }
@@ -392,13 +392,13 @@ public class Expresion {
             contenedor = transiciones.get(i);
             estado = contenedor[0];
             repetido = "";
-            for (int j = 0; j < alfabeto.size(); j++){
+            for (int j = 0; j < terminales.size(); j++){
                 
                 if (!contenedor[j+2].equals("--")){
                     if(estado.equals(contenedor[j+2])){
-                        repetido += alfabeto.get(j) + " \\n";
+                        repetido += terminales.get(j) + " \\n";
                     }else{
-                        codigo += estado + "->" + contenedor[j+2] + "[label=\"" + alfabeto.get(j) + "\"]\n";
+                        codigo += estado + "->" + contenedor[j+2] + "[label=\"" + terminales.get(j) + "\"]\n";
                     }
                 }
             }
@@ -471,7 +471,7 @@ public class Expresion {
         
     }
     
-     public void graficarAFN(){
+    public void graficarAFN(){
         String [] codigos = new String[3];
         codigos = raiz.hizq.getCodigoAFN();
         String codigo = "nodoInicial [shape=none label=\"\"]\n";
@@ -525,4 +525,86 @@ public class Expresion {
         }
     }
     
+    public String evaluarCadena(String cadenas, ArrayList<Estado> alfabetos){
+        String[] cadena = new String[cadenas.length()];
+        for (int i = 0; i < cadenas.length(); i++) { 
+            cadena[i] = cadenas.substring(i, i+1);
+        }
+        String[][] terminal = new String[terminales.size()][3];
+        for (int i = 0; i < terminales.size(); i++){
+            terminal[i][0] = terminales.get(i);
+            terminal[i][1] = "S";
+            terminal[i][2] = "";
+        }
+        for (Estado alfabeto : alfabetos) {
+            for (int i = 0; i < terminales.size(); i++){
+                if(alfabeto.nombre.equals(terminal[i][0])){
+                    terminal[i][1] = alfabeto.aceptacion;
+                    terminal[i][2] = alfabeto.hojas;
+                }
+            }
+        }
+        String st1 = "S0";
+        String validez = "invalido";
+        int valido = 1;
+        for (int i = 0; i < cadena.length; i++) { 
+            if ("".equals(st1)){
+                validez = "invalido";
+                valido = 0;
+                break;
+            }
+            if (!"\\".equals(cadena[i])){
+                st1 = analizarChar(st1, cadena[i], terminal);   
+            }
+        }
+        if (valido == 1){
+            for (Estado estado: estados){
+                if (st1.equals(estado.nombre)){
+                    if (estado.aceptacion.equals("A")){
+                        validez = "valido";
+                    }
+                }
+            }
+        }     
+        return validez;
+    }
+    
+    public int encontrarAlfabeto(String valores, String[][] terminales1){
+        for (String[] estado : terminales1) {
+            if(estado[1].equals("S")){
+                if(estado[0].equals(valores)){
+                    return terminales.indexOf(estado[0]) + 2; 
+                }
+            }
+            if(estado[1].equals("C")){
+                String[] arreglo = estado[2].split("~");
+                if((valores.compareTo(arreglo[0])) >=0 && (valores.compareTo(arreglo[1])) <=0){
+                    return terminales.indexOf(estado[0]) + 2; 
+                }
+            }
+            if(estado[1].equals("V")){
+                String[] arreglo = estado[2].split(",");
+                for(String partes: arreglo){
+                    if(partes.equals(valores)){
+                        return terminales.indexOf(estado[0]) + 2; 
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    
+    public String analizarChar(String valores, String cadena, String[][] terminales1){
+        for (String[] estado : transiciones) {
+            if(estado[0].equals(valores)){
+                int indice = encontrarAlfabeto(cadena, terminales1);
+                if (indice > 1){
+                    return estado[indice]; 
+                }else{
+                    return "";
+                }
+            }
+        }
+        return "";
+    }
 }

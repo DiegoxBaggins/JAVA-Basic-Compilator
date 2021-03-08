@@ -19,4 +19,10 @@ public class Estado {
         this.hojas = hojas;
         this.aceptacion = "N";
     }
+    
+    public Estado(String nombre, String hojas, String aceptacion){
+        this.nombre = nombre;
+        this.hojas = hojas;
+        this.aceptacion = aceptacion;
+    }
 }

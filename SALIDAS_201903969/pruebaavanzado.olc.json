@@ -1,0 +1,32 @@
+[
+    {
+        "Valor":"\'cadena entre comilla simple\'",
+        "ExpresionRegular":"EXP5",
+        "Resultado":"valido"
+    },
+    {
+        "Valor":"P-385fde",
+        "ExpresionRegular":"P1",
+        "Resultado":"valido"
+    },
+    {
+        "Valor":"P388fdc",
+        "ExpresionRegular":"P1",
+        "Resultado":"valido"
+    },
+    {
+        "Valor":"P38df8c",
+        "ExpresionRegular":"P1",
+        "Resultado":"invalido"
+    },
+    {
+        "Valor":"P-38df8k",
+        "ExpresionRegular":"P1",
+        "Resultado":"invalido"
+    },
+    {
+        "Valor":"K-385ffk",
+        "ExpresionRegular":"P1",
+        "Resultado":"invalido"
+    }
+]
